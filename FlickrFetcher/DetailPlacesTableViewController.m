@@ -40,6 +40,9 @@
     dispatch_async(downloadQueue, ^{
         NSArray *detailPlaces = [FlickrFetcher photosInPlace:place maxResults:50];
         NSLog(@"[DETAIL] Download cont: %d", [detailPlaces count]);
+        // detailPacces must be also display in alphabetical order.
+        // Reuiqred Task #2
+
         dispatch_async(dispatch_get_main_queue(), ^{
             // self.navigationItem.rightBarButtonItem = sender;
             self.detailPlaces = detailPlaces;
@@ -101,14 +104,16 @@
     return 0;
 }
 */
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView
+ numberOfRowsInSection:(NSInteger)section
 {
 // #warning Incomplete method implementation.
     // Return the number of rows in the section.
     return [self.detailPlaces count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Detail Places Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -171,7 +176,8 @@
 
 #pragma mark - Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
     /*
@@ -184,6 +190,13 @@
     self.photoURL = [FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge];
     NSLog(@"1-URL: %@", self.photoURL);
     //[self performSegueWithIdentifier:@"Flickr Photo View" sender:self];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSMutableArray *favorites = [[defaults objectForKey:FAVORITES_KEY] mutableCopy];
+    if (!favorites) favorites = [NSMutableArray array];
+    [favorites addObject:photo];
+    [defaults setObject:[favorites copy] forKey:FAVORITES_KEY];
+    [defaults synchronize];
 }
 
 
@@ -207,7 +220,8 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
     [self performSegueWithIdentifier:@"Flickr Photo View" sender:self];
 #endif // #ifdef __UNIVERSAL_IMPLEMENTAION__
 }
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)prepareForSegue:(UIStoryboardSegue *)segue
+                 sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"Flickr Photo View"]) {
         [segue.destinationViewController setUrlPhoto:self.photoURL ];

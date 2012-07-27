@@ -13,10 +13,9 @@
 @end
 
 @implementation FlickrPhotoViewController
-
-// http://stackoverflow.com/questions/3739996/reload-the-view-in-iphone-in-viewwillappear
 @synthesize scrollView;
 @synthesize imageView;
+
 -(void) resetView
 {
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -49,7 +48,8 @@
     }
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithNibName:(NSString *)nibNameOrNil
+               bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {

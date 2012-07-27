@@ -49,6 +49,9 @@
     dispatch_async(downloadQueue, ^{
         NSArray *topPlaces = [FlickrFetcher topPlaces];
         NSLog(@"Download cont: %d", [topPlaces count]);
+        // topPacces must be display in alphabetical order.
+        // Reuiqred Task #2
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             self.navigationItem.rightBarButtonItem = sender;
             self.topPlaces = topPlaces;

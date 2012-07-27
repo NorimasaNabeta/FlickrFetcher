@@ -21,6 +21,10 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSArray *recents = [defaults arrayForKey:FAVORITES_KEY];
     if (! recents) recents = [NSMutableArray array];
+    
+    // upto 20, no same entries permitted.
+    // RequiedTask #2
+    
     return recents;
 }
 
@@ -44,7 +48,10 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 
 }
-
+- (void) viewWillAppear:(BOOL)animated
+{
+    [self.tableView reloadData];
+}
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -67,14 +74,16 @@
     return 0;
 }
 */
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView
+ numberOfRowsInSection:(NSInteger)section
 {
 // #warning Incomplete method implementation.
     // Return the number of rows in the section.
     return [self.recentPlaces count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Recents Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -131,7 +140,8 @@
 
 #pragma mark - Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
     /*
@@ -140,6 +150,10 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+    NSDictionary *photo = [self.recentPlaces objectAtIndex:indexPath.row];
+    self.photoURL = [FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge];
+    NSLog(@"3-URL: %@", self.photoURL);
+    
 }
 
 
@@ -151,21 +165,21 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
     // NSArray *photosByPhotographer = [self.photosByPhotographer objectForKey:photographer];
     NSDictionary *photo = [self.recentPlaces objectAtIndex:indexPath.row];
     self.photoURL = [FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge];
-    NSLog(@"URL: %@", self.photoURL);
+    NSLog(@"4-URL: %@", self.photoURL);
     
 #ifdef __UNIVERSAL_IMPLEMENTAION__
     if ([self splitViewHappinessViewController]) {                      // if in split view
         [self splitViewHappinessViewController].urlPhoto = self.photoURL;  // just set happiness in detail
     } else {
-        [self performSegueWithIdentifier:@"Recents Photo" sender:self];
+        [self performSegueWithIdentifier:@"Recents Photo View" sender:self];
     }
 #else // #ifdef __UNIVERSAL_IMPLEMENTAION__
-    [self performSegueWithIdentifier:@"Recents Photo" sender:self];
+    [self performSegueWithIdentifier:@"Recents Photo View" sender:self];
 #endif // #ifdef __UNIVERSAL_IMPLEMENTAION__
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"Recents Photo"]) {
+    if ([segue.identifier isEqualToString:@"Recents Photo View"]) {
         [segue.destinationViewController setUrlPhoto:self.photoURL ];
     }
 }
