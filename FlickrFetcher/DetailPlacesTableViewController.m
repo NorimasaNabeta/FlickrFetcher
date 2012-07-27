@@ -42,10 +42,13 @@
         NSLog(@"[DETAIL] Download cont: %d", [detailPlaces count]);
         // detailPacces must be also display in alphabetical order.
         // Reuiqred Task #2
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:FLICKR_PHOTO_TITLE ascending:YES];
+        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+        NSArray *sortedDetailPlaces = [detailPlaces sortedArrayUsingDescriptors:sortDescriptors];
 
         dispatch_async(dispatch_get_main_queue(), ^{
             // self.navigationItem.rightBarButtonItem = sender;
-            self.detailPlaces = detailPlaces;
+            self.detailPlaces = sortedDetailPlaces;
             self.navigationItem.rightBarButtonItem=nil;
         });
     });
@@ -107,26 +110,7 @@
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-// #warning Incomplete method implementation.
-    // Return the number of rows in the section.
     return [self.detailPlaces count];
-}
-
-- (NSString *) retrieveValueFromKey:(NSDictionary *)dict
-                       nameKey:(NSString*) key
-{
-    NSString *result;
-    NSRange range=[key rangeOfString:@"."];
-    if(range.location == NSNotFound){
-        result = [dict objectForKey:key];
-    } else {
-        result = [dict valueForKeyPath:key];
-    }
-    // NSLog(@"%@ >>%@<<", key,result);
-    if ((result == nil) || ([result isEqualToString:@""])){
-        result = @"Unknown";
-    }
-    return result;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -137,8 +121,8 @@
     
     // Configure the cell...
     NSDictionary *photo = [self.detailPlaces objectAtIndex:indexPath.row];
-    cell.textLabel.text=[self retrieveValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE];
-    cell.detailTextLabel.text=[self retrieveValueFromKey:photo nameKey:FLICKR_PHOTO_DESCRIPTION];
+    cell.textLabel.text=[FlickrFetcher retrieveValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE];
+    cell.detailTextLabel.text=[FlickrFetcher retrieveValueFromKey:photo nameKey:FLICKR_PHOTO_DESCRIPTION];
  
     return cell;
 }
@@ -201,8 +185,24 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSMutableArray *favorites = [[defaults objectForKey:FAVORITES_KEY] mutableCopy];
-    if (!favorites) favorites = [NSMutableArray array];
-    [favorites addObject:photo];
+    if (!favorites){
+        favorites = [NSMutableArray array];
+    }
+    else {
+        // RequiedTask #2
+        NSString *newid = [FlickrFetcher retrieveValueFromKey:photo nameKey:FLICKR_PHOTO_ID];
+        NSMutableArray *culling = [[NSMutableArray alloc] init];
+        for (int idx=0; ((idx<19) && (idx < [favorites count])); idx++) {
+            NSDictionary *entry = [favorites objectAtIndex:idx];
+            NSString *id = [FlickrFetcher retrieveValueFromKey:entry nameKey:FLICKR_PHOTO_ID];
+            if (! [newid isEqualToString:id]) {
+                [culling addObject:entry];
+            }
+        }
+        favorites = culling;        
+    }
+    [favorites insertObject:photo atIndex:0];
+    
     [defaults setObject:[favorites copy] forKey:FAVORITES_KEY];
     [defaults synchronize];
 }

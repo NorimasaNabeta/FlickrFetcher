@@ -20,10 +20,9 @@
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSArray *recents = [defaults arrayForKey:FAVORITES_KEY];
-    if (! recents) recents = [NSMutableArray array];
-    
-    // upto 20, no same entries permitted.
-    // RequiedTask #2
+    if (! recents){
+        recents = [NSMutableArray array];
+    }
     
     return recents;
 }
@@ -66,19 +65,9 @@
 }
 
 #pragma mark - Table view data source
-/*
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
-}
-*/
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-// #warning Incomplete method implementation.
-    // Return the number of rows in the section.
     return [self.recentPlaces count];
 }
 
@@ -93,8 +82,9 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     NSDictionary *photo = [self.recentPlaces objectAtIndex:indexPath.row];
-    cell.textLabel.text = [photo objectForKey:FLICKR_PHOTO_TITLE];
-    cell.detailTextLabel.text = [photo objectForKey:FLICKR_PHOTO_OWNER];
+    cell.textLabel.text = [FlickrFetcher retrieveValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE];
+    // cell.textLabel.text = [NSString stringWithFormat:@"%02d: %@", (indexPath.row +1), [FlickrFetcher retrieveValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE]];
+    cell.detailTextLabel.text = [FlickrFetcher retrieveValueFromKey:photo nameKey:FLICKR_PHOTO_DESCRIPTION];
     
     return cell;
 }

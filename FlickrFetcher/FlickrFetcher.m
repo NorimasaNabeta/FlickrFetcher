@@ -79,4 +79,23 @@
     return [NSURL URLWithString:[self urlStringForPhoto:photo format:format]];
 }
 
+// utility functions
++ (NSString *) retrieveValueFromKey:(NSDictionary *)dict
+                            nameKey:(NSString*) key
+{
+    NSString *result;
+    NSRange range=[key rangeOfString:@"."];
+    if(range.location == NSNotFound){
+        result = [dict objectForKey:key];
+    } else {
+        result = [dict valueForKeyPath:key];
+    }
+    // NSLog(@"%@ >>%@<<", key,result);
+    if ((result == nil) || ([result isEqualToString:@""])){
+        result = @"Unknown";
+    }
+    return result;
+}
+
+
 @end

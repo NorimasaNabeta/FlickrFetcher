@@ -51,10 +51,13 @@
         NSLog(@"Download cont: %d", [topPlaces count]);
         // topPacces must be display in alphabetical order.
         // Reuiqred Task #2
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:FLICKR_PLACE_NAME ascending:YES];
+        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+        NSArray *sortedTopPlaces = [topPlaces sortedArrayUsingDescriptors:sortDescriptors];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             self.navigationItem.rightBarButtonItem = sender;
-            self.topPlaces = topPlaces;
+            self.topPlaces = sortedTopPlaces;
         });
     });
     dispatch_release(downloadQueue);
@@ -110,16 +113,10 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    // NSDictionary *place = [self.topPlaces objectAtIndex:indexPath.row];
-    // cell.textLabel.text = [place objectForKey:FLICKR_PHOTO_TITLE];
-    // cell.detailTextLabel.text = [place objectForKey:FLICKR_PHOTO_OWNER];
     NSString *place = [[self.topPlaces objectAtIndex:indexPath.row] valueForKeyPath:@"_content"];
     // NSLog(@"%@", place);
     NSArray *placeDescription = [place componentsSeparatedByString:@","];
-    // cell.textLabel.text = (NSString*)[[self.places objectAtIndex:indexPath.row] objectForKey:@"_content"];
-    cell.textLabel.text = [NSString stringWithFormat:@"%d %@",
-                           indexPath.row,
-                           [placeDescription objectAtIndex:0]];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@", [placeDescription objectAtIndex:0]];
     cell.detailTextLabel.text = place;
     
     return cell;

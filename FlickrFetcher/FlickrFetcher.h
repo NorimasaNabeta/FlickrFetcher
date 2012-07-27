@@ -30,4 +30,6 @@ typedef enum {
 + (NSArray *)photosInPlace:(NSDictionary *)place maxResults:(int)maxResults;
 + (NSURL *)urlForPhoto:(NSDictionary *)photo format:(FlickrPhotoFormat)format;
 
++ (NSString *) retrieveValueFromKey:(NSDictionary *)dict nameKey:(NSString*)key;
+
 @end
