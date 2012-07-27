@@ -36,6 +36,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             self.imageView.image = [UIImage imageWithData:photo];
             self.imageView.frame=CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);
+            self.scrollView.delegate=self;
             self.scrollView.contentSize=self.imageView.image.size;
             self.scrollView.minimumZoomScale=0.2;
             self.scrollView.maximumZoomScale=5.0;
