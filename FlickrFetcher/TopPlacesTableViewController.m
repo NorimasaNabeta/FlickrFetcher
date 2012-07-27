@@ -73,7 +73,13 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSArray *recents = [defaults arrayForKey:FAVORITES_KEY];
+    if (! recents){
+        recents = [NSMutableArray array];
+    }
+    UITabBarItem *barItem = [[self.tabBarController.viewControllers objectAtIndex:1] tabBarItem];
+    barItem.badgeValue = [NSString stringWithFormat:@"%d", [recents count]];
 }
 
 - (void)viewDidUnload

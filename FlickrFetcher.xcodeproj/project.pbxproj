@@ -20,6 +20,16 @@
 		F231DF3215C259E5003124B9 /* FlickrPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F231DF3115C259E5003124B9 /* FlickrPhotoViewController.m */; };
 		F231DF3515C25A26003124B9 /* RecentsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F231DF3415C25A26003124B9 /* RecentsTableViewController.m */; };
 		F231DF3915C25BB0003124B9 /* FlickrFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = F231DF3815C25BB0003124B9 /* FlickrFetcher.m */; };
+		F231DF3E15C2C578003124B9 /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = F231DF3A15C2C578003124B9 /* first.png */; };
+		F231DF3F15C2C578003124B9 /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F231DF3B15C2C578003124B9 /* first@2x.png */; };
+		F231DF4015C2C578003124B9 /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = F231DF3C15C2C578003124B9 /* second.png */; };
+		F231DF4115C2C578003124B9 /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F231DF3D15C2C578003124B9 /* second@2x.png */; };
+		F231DF4815C2C6D2003124B9 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = F231DF4215C2C6D1003124B9 /* Icon-72.png */; };
+		F231DF4915C2C6D2003124B9 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = F231DF4315C2C6D2003124B9 /* Icon-Small-50.png */; };
+		F231DF4A15C2C6D2003124B9 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = F231DF4415C2C6D2003124B9 /* Icon-Small.png */; };
+		F231DF4B15C2C6D2003124B9 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F231DF4515C2C6D2003124B9 /* Icon-Small@2x.png */; };
+		F231DF4C15C2C6D2003124B9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F231DF4615C2C6D2003124B9 /* Icon.png */; };
+		F231DF4D15C2C6D2003124B9 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F231DF4715C2C6D2003124B9 /* Icon@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +56,16 @@
 		F231DF3615C25BB0003124B9 /* FlickrAPIKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrAPIKey.h; sourceTree = "<group>"; };
 		F231DF3715C25BB0003124B9 /* FlickrFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrFetcher.h; sourceTree = "<group>"; };
 		F231DF3815C25BB0003124B9 /* FlickrFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrFetcher.m; sourceTree = "<group>"; };
+		F231DF3A15C2C578003124B9 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
+		F231DF3B15C2C578003124B9 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
+		F231DF3C15C2C578003124B9 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
+		F231DF3D15C2C578003124B9 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
+		F231DF4215C2C6D1003124B9 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		F231DF4315C2C6D2003124B9 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
+		F231DF4415C2C6D2003124B9 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
+		F231DF4515C2C6D2003124B9 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
+		F231DF4615C2C6D2003124B9 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		F231DF4715C2C6D2003124B9 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +119,10 @@
 				F231DF3315C25A26003124B9 /* RecentsTableViewController.h */,
 				F231DF3415C25A26003124B9 /* RecentsTableViewController.m */,
 				F231DF3015C259E5003124B9 /* FlickrPhotoViewController.h */,
+				F231DF3A15C2C578003124B9 /* first.png */,
+				F231DF3B15C2C578003124B9 /* first@2x.png */,
+				F231DF3C15C2C578003124B9 /* second.png */,
+				F231DF3D15C2C578003124B9 /* second@2x.png */,
 				F231DF3115C259E5003124B9 /* FlickrPhotoViewController.m */,
 				F231DF2D15C25948003124B9 /* DetailPlacesTableViewController.h */,
 				F231DF2E15C25948003124B9 /* DetailPlacesTableViewController.m */,
@@ -113,6 +137,12 @@
 		F231DF1115C237DE003124B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F231DF4215C2C6D1003124B9 /* Icon-72.png */,
+				F231DF4315C2C6D2003124B9 /* Icon-Small-50.png */,
+				F231DF4415C2C6D2003124B9 /* Icon-Small.png */,
+				F231DF4515C2C6D2003124B9 /* Icon-Small@2x.png */,
+				F231DF4615C2C6D2003124B9 /* Icon.png */,
+				F231DF4715C2C6D2003124B9 /* Icon@2x.png */,
 				F231DF1A15C237DE003124B9 /* AppDelegate.m */,
 				F231DF1915C237DE003124B9 /* AppDelegate.h */,
 				F231DF1215C237DE003124B9 /* FlickrFetcher-Info.plist */,
@@ -177,6 +207,16 @@
 				F231DF1515C237DE003124B9 /* InfoPlist.strings in Resources */,
 				F231DF1E15C237DE003124B9 /* MainStoryboard_iPhone.storyboard in Resources */,
 				F231DF2115C237DE003124B9 /* MainStoryboard_iPad.storyboard in Resources */,
+				F231DF3E15C2C578003124B9 /* first.png in Resources */,
+				F231DF3F15C2C578003124B9 /* first@2x.png in Resources */,
+				F231DF4015C2C578003124B9 /* second.png in Resources */,
+				F231DF4115C2C578003124B9 /* second@2x.png in Resources */,
+				F231DF4815C2C6D2003124B9 /* Icon-72.png in Resources */,
+				F231DF4915C2C6D2003124B9 /* Icon-Small-50.png in Resources */,
+				F231DF4A15C2C6D2003124B9 /* Icon-Small.png in Resources */,
+				F231DF4B15C2C6D2003124B9 /* Icon-Small@2x.png in Resources */,
+				F231DF4C15C2C6D2003124B9 /* Icon.png in Resources */,
+				F231DF4D15C2C6D2003124B9 /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

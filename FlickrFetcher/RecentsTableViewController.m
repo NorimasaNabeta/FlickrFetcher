@@ -23,7 +23,9 @@
     if (! recents){
         recents = [NSMutableArray array];
     }
-    
+    UITabBarItem *barItem = [[self.tabBarController.viewControllers objectAtIndex:1] tabBarItem];
+    barItem.badgeValue = [NSString stringWithFormat:@"%d", [recents count]];
+
     return recents;
 }
 

@@ -9,8 +9,9 @@
 #import "FlickrPhotoViewController.h"
 #import "FlickrFetcher.h"
 
-@interface FlickrPhotoViewController ()
-
+@interface FlickrPhotoViewController ()  <UIScrollViewDelegate>
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @end
 
 @implementation FlickrPhotoViewController
@@ -34,8 +35,10 @@
         NSData *photo = [NSData dataWithContentsOfURL:urlPhoto];
         dispatch_async(dispatch_get_main_queue(), ^{
             self.imageView.image = [UIImage imageWithData:photo];
-            self.scrollView.contentSize=self.imageView.image.size;
             self.imageView.frame=CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);
+            self.scrollView.contentSize=self.imageView.image.size;
+            self.scrollView.minimumZoomScale=0.2;
+            self.scrollView.maximumZoomScale=5.0;
             self.navigationItem.rightBarButtonItem = nil;
         });
     });
@@ -85,5 +88,21 @@
     //return (interfaceOrientation == UIInterfaceOrientationPortrait);
     return YES;
 }
+
+
+#pragma mark - UIScrollViewDelegate
+- (UIView*) viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+    return self.imageView;
+}
+
+-(void)scrollViewDidEndZooming:(UIScrollView *)scrollView
+                      withView:(UIView *)view
+                       atScale:(float)scale
+{
+    NSLog(@"scale=%g", scale);
+}
+
+
 
 @end
