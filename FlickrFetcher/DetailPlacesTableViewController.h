@@ -11,5 +11,4 @@
 @interface DetailPlacesTableViewController : UITableViewController
 @property (nonatomic,strong) NSDictionary *place;
 @property (nonatomic,strong) NSArray *detailPlaces;
-@property (nonatomic,strong) NSURL *photoURL;
 @end

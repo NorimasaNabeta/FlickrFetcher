@@ -10,5 +10,4 @@
 
 @interface RecentsTableViewController : UITableViewController
 @property (nonatomic,readonly) NSArray *recentPlaces;
-@property (nonatomic,strong) NSURL *photoURL;
 @end

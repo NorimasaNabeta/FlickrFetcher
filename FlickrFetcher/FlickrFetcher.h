@@ -31,5 +31,6 @@ typedef enum {
 + (NSURL *)urlForPhoto:(NSDictionary *)photo format:(FlickrPhotoFormat)format;
 
 + (NSString *) stringValueFromKey:(NSDictionary *)dict nameKey:(NSString*)key;
++ (NSString *) namePlace:(NSDictionary*) place;
 
 @end

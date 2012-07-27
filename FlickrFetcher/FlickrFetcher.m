@@ -97,5 +97,12 @@
     return result;
 }
 
++ (NSString *) namePlace:(NSDictionary*) place
+{
+    NSString *content = [place valueForKeyPath:FLICKR_PLACE_NAME];
+    NSArray *contentDescription = [content componentsSeparatedByString:@","];
+    //return [NSString stringWithFormat:@"%@", [contentDescription objectAtIndex:0]];
+    return [contentDescription objectAtIndex:0];
+}
 
 @end

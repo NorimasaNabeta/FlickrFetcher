@@ -83,7 +83,6 @@
     }
     NSDictionary *photo = [self.recentPlaces objectAtIndex:indexPath.row];
     cell.textLabel.text = [FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE];
-    // cell.textLabel.text = [NSString stringWithFormat:@"%02d: %@", (indexPath.row +1), [FlickrFetcher retrieveValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE]];
     cell.detailTextLabel.text = [FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_DESCRIPTION];
     
     return cell;
@@ -133,19 +132,21 @@
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *photo = [self.recentPlaces objectAtIndex:indexPath.row];
-    self.photoURL = [FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge];
-    NSLog(@"3-URL: %@", self.photoURL);    
+//    NSDictionary *photo = [self.recentPlaces objectAtIndex:indexPath.row];
+//    self.photoURL = [FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge];
+//    self.photoTitle = [FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE];
+//    NSLog(@"3-URL: %@ %@", self.photoTitle, self.photoURL);
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 
 -(void)tableView:(UITableView *)tableView
 accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *photo = [self.recentPlaces objectAtIndex:indexPath.row];
-    self.photoURL = [FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge];
-    NSLog(@"4-URL: %@", self.photoURL);
-    
+//    NSDictionary *photo = [self.recentPlaces objectAtIndex:indexPath.row];
+//    self.photoURL = [FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge];
+//    self.photoTitle = [FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE];
+//    NSLog(@"4-URL: %@ %@", self.photoTitle, self.photoURL);
 #ifdef __UNIVERSAL_IMPLEMENTAION__
     if ([self splitViewHappinessViewController]) {                      // if in split view
         [self splitViewHappinessViewController].urlPhoto = self.photoURL;  // just set happiness in detail
@@ -156,10 +157,15 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
     [self performSegueWithIdentifier:@"Recents Photo View" sender:self];
 #endif // #ifdef __UNIVERSAL_IMPLEMENTAION__
 }
+
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"Recents Photo View"]) {
-        [segue.destinationViewController setUrlPhoto:self.photoURL ];
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        NSLog(@"indexPath %@", indexPath);
+        NSDictionary *photo = [self.recentPlaces objectAtIndex:indexPath.row];
+        [segue.destinationViewController setPhoto:photo ];
     }
 }
 

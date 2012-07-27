@@ -7,6 +7,7 @@
 //
 
 #import "FlickrPhotoViewController.h"
+#import "FlickrFetcher.h"
 
 @interface FlickrPhotoViewController ()
 
@@ -28,7 +29,9 @@
     
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr image downloader", NULL);
     dispatch_async(downloadQueue, ^{
-        NSData *photo = [NSData dataWithContentsOfURL:self.urlPhoto];
+        NSURL *urlPhoto = [FlickrFetcher urlForPhoto:self.photo format:FlickrPhotoFormatLarge];
+        self.title = [FlickrFetcher stringValueFromKey:self.photo nameKey:FLICKR_PHOTO_TITLE];
+        NSData *photo = [NSData dataWithContentsOfURL:urlPhoto];
         dispatch_async(dispatch_get_main_queue(), ^{
             self.imageView.image = [UIImage imageWithData:photo];
             self.scrollView.contentSize=self.imageView.image.size;
@@ -40,10 +43,10 @@
     [self.view setNeedsDisplay];
 }
 
-- (void) setUrlPhoto:(NSURL *)urlPhoto
+- (void) setPhoto:(NSDictionary *)photo
 {
-    if(_urlPhoto != urlPhoto){
-        _urlPhoto = urlPhoto;
+    if(_photo != photo){
+        _photo = photo;
         [self resetView];
     }
 }

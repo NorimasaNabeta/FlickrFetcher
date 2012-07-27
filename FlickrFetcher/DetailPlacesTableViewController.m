@@ -60,11 +60,12 @@
     if(_place != place){
         _place = place;
         [self resetPlaces:place];
+        
+        self.title = [FlickrFetcher namePlace:place];
         [self.tableView reloadData];
-
+        
     }
 }
-
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -99,14 +100,7 @@
 }
 
 #pragma mark - Table view data source
-/*
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
-}
-*/
+
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
@@ -178,33 +172,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
-    NSDictionary *photo = [self.detailPlaces objectAtIndex:indexPath.row];
-    self.photoURL = [FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge];
-    NSLog(@"1-URL: %@", self.photoURL);
     //[self performSegueWithIdentifier:@"Flickr Photo View" sender:self];
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSMutableArray *favorites = [[defaults objectForKey:FAVORITES_KEY] mutableCopy];
-    if (!favorites){
-        favorites = [NSMutableArray array];
-    }
-    else {
-        // RequiedTask #2
-        NSString *newid = [FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_ID];
-        NSMutableArray *culling = [[NSMutableArray alloc] init];
-        for (int idx=0; ((idx<19) && (idx < [favorites count])); idx++) {
-            NSDictionary *entry = [favorites objectAtIndex:idx];
-            NSString *id = [FlickrFetcher stringValueFromKey:entry nameKey:FLICKR_PHOTO_ID];
-            if (! [newid isEqualToString:id]) {
-                [culling addObject:entry];
-            }
-        }
-        favorites = culling;        
-    }
-    [favorites insertObject:photo atIndex:0];
-    
-    [defaults setObject:[favorites copy] forKey:FAVORITES_KEY];
-    [defaults synchronize];
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 
@@ -214,10 +183,8 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
     
     // NSString *photographer = [self photographerForSection:indexPath.section];
     // NSArray *photosByPhotographer = [self.photosByPhotographer objectForKey:photographer];
-    NSDictionary *photo = [self.detailPlaces objectAtIndex:indexPath.row];
-    self.photoURL = [FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge];
-    NSLog(@"2-URL: %@", self.photoURL);
-    
+    //    NSDictionary *photo = [self.detailPlaces objectAtIndex:indexPath.row];
+    // self.place = [self.detailPlaces objectAtIndex:indexPath.row];
 #ifdef __UNIVERSAL_IMPLEMENTAION__
     if ([self splitViewHappinessViewController]) {                      // if in split view
         [self splitViewHappinessViewController].urlPhoto = self.photoURL;  // just set happiness in detail
@@ -228,11 +195,39 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
     [self performSegueWithIdentifier:@"Flickr Photo View" sender:self];
 #endif // #ifdef __UNIVERSAL_IMPLEMENTAION__
 }
+
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue
                  sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"Flickr Photo View"]) {
-        [segue.destinationViewController setUrlPhoto:self.photoURL ];
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        NSLog(@"indexPath %@", indexPath);
+        NSDictionary *photo = [self.detailPlaces objectAtIndex:indexPath.row];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSMutableArray *favorites = [[defaults objectForKey:FAVORITES_KEY] mutableCopy];
+        if (!favorites){
+            favorites = [NSMutableArray array];
+        }
+        else {
+            // RequiedTask #2
+            NSString *newid = [FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_ID];
+            NSMutableArray *culling = [[NSMutableArray alloc] init];
+            for (int idx=0; ((idx<19) && (idx < [favorites count])); idx++) {
+                NSDictionary *entry = [favorites objectAtIndex:idx];
+                NSString *id = [FlickrFetcher stringValueFromKey:entry nameKey:FLICKR_PHOTO_ID];
+                if (! [newid isEqualToString:id]) {
+                    [culling addObject:entry];
+                }
+            }
+            favorites = culling;
+        }
+        [favorites insertObject:photo atIndex:0];
+        
+        [defaults setObject:[favorites copy] forKey:FAVORITES_KEY];
+        [defaults synchronize];
+
+        [segue.destinationViewController setPhoto:photo ];
     }
 }
 

@@ -8,9 +8,10 @@
 
 #import "TopPlacesTableViewController.h"
 #import "FlickrFetcher.h"
+#import "DetailPlacesTableViewController.h"
 
 @interface TopPlacesTableViewController ()
-@property (nonatomic,strong) NSDictionary* place;
+
 @end
 
 @implementation TopPlacesTableViewController
@@ -97,14 +98,16 @@
 }
 */
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView
+ numberOfRowsInSection:(NSInteger)section
 {
 //#warning Incomplete method implementation.
     // Return the number of rows in the section.
     return [self.topPlaces count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Top Places Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -113,12 +116,10 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    NSString *place = [[self.topPlaces objectAtIndex:indexPath.row] valueForKeyPath:@"_content"];
-    // NSLog(@"%@", place);
-    NSArray *placeDescription = [place componentsSeparatedByString:@","];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@", [placeDescription objectAtIndex:0]];
-    cell.detailTextLabel.text = place;
-    
+    NSDictionary *place = [self.topPlaces objectAtIndex:indexPath.row];
+    cell.textLabel.text = [FlickrFetcher namePlace:place];
+    cell.detailTextLabel.text = [place valueForKeyPath:FLICKR_PLACE_NAME];
+
     return cell;
 }
 
@@ -163,7 +164,8 @@
 
 #pragma mark - Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
     /*
@@ -172,9 +174,8 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
-    self.place = [self.topPlaces objectAtIndex:indexPath.row];
     // [self performSegueWithIdentifier:@"Detail Places View" sender:self];
-
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 
@@ -184,7 +185,7 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
     
     // NSString *photographer = [self photographerForSection:indexPath.section];
     // NSArray *photosByPhotographer = [self.photosByPhotographer objectForKey:photographer];
-    self.place = [self.topPlaces objectAtIndex:indexPath.row];
+    // self.place = [self.topPlaces objectAtIndex:indexPath.row];
     // self.photoURL = [FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge];
     /// NSLog(@"URL: %@", self.photoURL);
 #ifdef __UNIVERSAL_IMPLEMENTAION__
@@ -197,10 +198,15 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
     [self performSegueWithIdentifier:@"Detail Places View" sender:self];
 #endif // #ifdef __UNIVERSAL_IMPLEMENTAION__
 }
+
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"Detail Places View"]) {
-        [segue.destinationViewController setPlace:self.place ];
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        NSLog(@"indexPath %@", indexPath);
+        NSDictionary *place = [self.topPlaces objectAtIndex:indexPath.row];
+        [segue.destinationViewController setPlace:place ];
     }
 }
 

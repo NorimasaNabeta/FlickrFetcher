@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface FlickrPhotoViewController : UIViewController
-@property (nonatomic,strong) NSURL *urlPhoto;
+@property (nonatomic,strong) NSDictionary *photo;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @end
