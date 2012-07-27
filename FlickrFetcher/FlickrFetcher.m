@@ -80,7 +80,7 @@
 }
 
 // utility functions
-+ (NSString *) retrieveValueFromKey:(NSDictionary *)dict
++ (NSString *) stringValueFromKey:(NSDictionary *)dict
                             nameKey:(NSString*) key
 {
     NSString *result;

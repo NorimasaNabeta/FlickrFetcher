@@ -82,9 +82,9 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     NSDictionary *photo = [self.recentPlaces objectAtIndex:indexPath.row];
-    cell.textLabel.text = [FlickrFetcher retrieveValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE];
+    cell.textLabel.text = [FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE];
     // cell.textLabel.text = [NSString stringWithFormat:@"%02d: %@", (indexPath.row +1), [FlickrFetcher retrieveValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE]];
-    cell.detailTextLabel.text = [FlickrFetcher retrieveValueFromKey:photo nameKey:FLICKR_PHOTO_DESCRIPTION];
+    cell.detailTextLabel.text = [FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_DESCRIPTION];
     
     return cell;
 }
@@ -133,26 +133,15 @@
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
     NSDictionary *photo = [self.recentPlaces objectAtIndex:indexPath.row];
     self.photoURL = [FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge];
-    NSLog(@"3-URL: %@", self.photoURL);
-    
+    NSLog(@"3-URL: %@", self.photoURL);    
 }
 
 
 -(void)tableView:(UITableView *)tableView
 accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-    
-    // NSString *photographer = [self photographerForSection:indexPath.section];
-    // NSArray *photosByPhotographer = [self.photosByPhotographer objectForKey:photographer];
     NSDictionary *photo = [self.recentPlaces objectAtIndex:indexPath.row];
     self.photoURL = [FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge];
     NSLog(@"4-URL: %@", self.photoURL);

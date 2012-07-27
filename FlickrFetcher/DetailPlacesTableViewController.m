@@ -190,11 +190,11 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     }
     else {
         // RequiedTask #2
-        NSString *newid = [FlickrFetcher retrieveValueFromKey:photo nameKey:FLICKR_PHOTO_ID];
+        NSString *newid = [FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_ID];
         NSMutableArray *culling = [[NSMutableArray alloc] init];
         for (int idx=0; ((idx<19) && (idx < [favorites count])); idx++) {
             NSDictionary *entry = [favorites objectAtIndex:idx];
-            NSString *id = [FlickrFetcher retrieveValueFromKey:entry nameKey:FLICKR_PHOTO_ID];
+            NSString *id = [FlickrFetcher stringValueFromKey:entry nameKey:FLICKR_PHOTO_ID];
             if (! [newid isEqualToString:id]) {
                 [culling addObject:entry];
             }
