@@ -112,6 +112,23 @@
     return [self.detailPlaces count];
 }
 
+- (NSString *) retrieveValueFromKey:(NSDictionary *)dict
+                       nameKey:(NSString*) key
+{
+    NSString *result;
+    NSRange range=[key rangeOfString:@"."];
+    if(range.location == NSNotFound){
+        result = [dict objectForKey:key];
+    } else {
+        result = [dict valueForKeyPath:key];
+    }
+    // NSLog(@"%@ >>%@<<", key,result);
+    if ((result == nil) || ([result isEqualToString:@""])){
+        result = @"Unknown";
+    }
+    return result;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -120,18 +137,9 @@
     
     // Configure the cell...
     NSDictionary *photo = [self.detailPlaces objectAtIndex:indexPath.row];
-    NSString *tmp = [photo objectForKey:FLICKR_PHOTO_TITLE];
-    NSLog(@"%@ >>%@<<", FLICKR_PHOTO_TITLE,tmp);
-    if ((tmp == nil) || ([tmp isEqualToString:@""])){
-        tmp = @"Unknown";
-    }
-    cell.textLabel.text=tmp;
-    tmp = [photo valueForKeyPath:FLICKR_PHOTO_DESCRIPTION];
-    NSLog(@"%@ >>%@<<", FLICKR_PHOTO_DESCRIPTION, tmp);
-    if ((tmp == nil) || ([tmp isEqualToString:@""])){
-        tmp = @"Unknown";
-    }
-    cell.detailTextLabel.text=tmp;
+    cell.textLabel.text=[self retrieveValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE];
+    cell.detailTextLabel.text=[self retrieveValueFromKey:photo nameKey:FLICKR_PHOTO_DESCRIPTION];
+ 
     return cell;
 }
 
