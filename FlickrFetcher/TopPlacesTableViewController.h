@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  TopPlacesTableViewController.h
 //  FlickrFetcher
 //
 //  Created by Norimasa Nabeta on 2012/07/27.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface TopPlacesTableViewController : UITableViewController
+@property (nonatomic,strong) NSArray *topPlaces;
 @end
