@@ -121,8 +121,8 @@
     
     // Configure the cell...
     NSDictionary *photo = [self.detailPlaces objectAtIndex:indexPath.row];
-    cell.textLabel.text=[FlickrFetcher retrieveValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE];
-    cell.detailTextLabel.text=[FlickrFetcher retrieveValueFromKey:photo nameKey:FLICKR_PHOTO_DESCRIPTION];
+    cell.textLabel.text=[FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE];
+    cell.detailTextLabel.text=[FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_DESCRIPTION];
  
     return cell;
 }
