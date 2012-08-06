@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FlickrPhotoViewController : UIViewController
+@interface FlickrPhotoViewController : UIViewController <UISplitViewControllerDelegate>
 @property (nonatomic,strong) NSDictionary *photo;
 @end

@@ -19,6 +19,19 @@
 @synthesize annotations=_annotations;
 @synthesize mapView=_mapView;
 
+- (IBAction)segmentMapType:(UISegmentedControl *)sender {
+    switch (sender.selectedSegmentIndex) {
+        case 1:
+            self.mapView.mapType=MKMapTypeSatellite;
+            break;
+        case 2:
+            self.mapView.mapType=MKMapTypeHybrid;
+            break;
+        default:
+            self.mapView.mapType=MKMapTypeStandard;
+            break;
+    }
+}
 
 -(void) updateMapView
 {

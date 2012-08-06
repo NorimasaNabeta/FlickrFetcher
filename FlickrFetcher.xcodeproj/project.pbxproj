@@ -76,6 +76,7 @@
 		F231E02515CF3AFB003124B9 /* PlaceMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceMapViewController.m; sourceTree = "<group>"; };
 		F231E02715CF3E08003124B9 /* FlickrPhotoAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrPhotoAnnotation.h; sourceTree = "<group>"; };
 		F231E02815CF3E08003124B9 /* FlickrPhotoAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrPhotoAnnotation.m; sourceTree = "<group>"; };
+		F231E02E15CF5FB5003124B9 /* SplitViewBarButtonItemPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewBarButtonItemPresenter.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +135,7 @@
 				F231DF3615C25BB0003124B9 /* FlickrAPIKey.h */,
 				F231DF3715C25BB0003124B9 /* FlickrFetcher.h */,
 				F231DF3815C25BB0003124B9 /* FlickrFetcher.m */,
+				F231E02E15CF5FB5003124B9 /* SplitViewBarButtonItemPresenter.h */,
 				F231DF3315C25A26003124B9 /* RecentsTableViewController.h */,
 				F231DF3415C25A26003124B9 /* RecentsTableViewController.m */,
 				F231DF3015C259E5003124B9 /* FlickrPhotoViewController.h */,

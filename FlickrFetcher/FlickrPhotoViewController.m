@@ -8,6 +8,7 @@
 
 #import "FlickrPhotoViewController.h"
 #import "FlickrFetcher.h"
+#import "SplitViewBarButtonItemPresenter.h"
 
 @interface FlickrPhotoViewController ()  <UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -75,6 +76,7 @@
     [super awakeFromNib];
     NSLog(@"nib %g %g", self.scrollView.frame.size.width, self.scrollView.frame.size.height);
     [self resetScrollView];
+    self.splitViewController.delegate=self;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil
@@ -126,6 +128,37 @@
     NSLog(@"scale=%g", scale);
 }
 
+#pragma mark - UISplitViewControllerDelegate
+-(id <SplitViewBarButtonItemPresenter>) splitViewBarButtonItemPresenter
+{
+    id detailVC = [self.splitViewController.viewControllers lastObject];
+    if (![detailVC conformsToProtocol:@protocol(SplitViewBarButtonItemPresenter)]) {
+        detailVC = nil;
+    }
+    return detailVC;
+}
 
+-(BOOL) splitViewController:(UISplitViewController *)svc
+   shouldHideViewController:(UIViewController *)vc
+              inOrientation:(UIInterfaceOrientation)orientation
+{
+    return [self splitViewBarButtonItemPresenter] ? UIInterfaceOrientationIsPortrait(orientation) : NO;
+}
+-(void) splitViewController:(UISplitViewController *)svc
+     willHideViewController:(UIViewController *)aViewController
+          withBarButtonItem:(UIBarButtonItem *)barButtonItem
+       forPopoverController:(UIPopoverController *)pc
+{
+    barButtonItem.title = self.title;
+    [self splitViewBarButtonItemPresenter].splitViewBarButtonItem = barButtonItem;
+    
+}
+
+-(void) splitViewController:(UISplitViewController *)svc
+     willShowViewController:(UIViewController *)aViewController
+  invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
+{
+    [self splitViewBarButtonItemPresenter].splitViewBarButtonItem = nil;
+}
 
 @end
