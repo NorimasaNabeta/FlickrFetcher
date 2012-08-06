@@ -9,10 +9,10 @@
 #import "DetailPlacesTableViewController.h"
 #import "FlickrFetcher.h"
 #import "FlickrPhotoViewController.h"
-#import "PlaceMapViewController.h"
+#import "PhotoMapViewController.h"
 #import "FlickrPhotoAnnotation.h"
 
-@interface DetailPlacesTableViewController () <MapViewControllerDelegate>
+@interface DetailPlacesTableViewController () <PhotoMapViewControllerDelegate>
 @end
 
 @implementation DetailPlacesTableViewController
@@ -192,12 +192,12 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 
         [segue.destinationViewController setPhoto:photo ];
     }
-    else if ([segue.identifier isEqualToString:@"Places Map View"]) {
+    else if ([segue.identifier isEqualToString:@"Photo Map View"]) {
         // NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         // NSLog(@"Map:indexPath %@", indexPath);
         id detail = segue.destinationViewController;
-        if ([detail isKindOfClass:[PlaceMapViewController class]]) {
-            PlaceMapViewController *mapVC = (PlaceMapViewController *)detail;
+        if ([detail isKindOfClass:[PhotoMapViewController class]]) {
+            PhotoMapViewController *mapVC = (PhotoMapViewController *)detail;
             mapVC.delegate = self;
             mapVC.annotations = [self mapAnnotations];
             // mapVC.title = self.title;
@@ -218,16 +218,16 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 - (void)updateSplitViewDetail
 {
     id detail = [self.splitViewController.viewControllers lastObject];
-    if ([detail isKindOfClass:[PlaceMapViewController class]]) {
-        PlaceMapViewController *mapVC = (PlaceMapViewController *)detail;
+    if ([detail isKindOfClass:[PhotoMapViewController class]]) {
+        PhotoMapViewController *mapVC = (PhotoMapViewController *)detail;
         mapVC.delegate = self;
         mapVC.annotations = [self mapAnnotations];
     }
 }
 
-#pragma mark - MapViewControllerDelegate
+#pragma mark - PhotoMapViewControllerDelegate
 
-- (UIImage *)mapViewController:(PlaceMapViewController *)sender
+- (UIImage *)mapViewController:(PhotoMapViewController *)sender
             imageForAnnotation:(id <MKAnnotation>)annotation
 {
     FlickrPhotoAnnotation *fpa = (FlickrPhotoAnnotation *)annotation;

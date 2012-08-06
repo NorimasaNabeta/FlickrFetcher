@@ -9,8 +9,11 @@
 #import "TopPlacesTableViewController.h"
 #import "FlickrFetcher.h"
 #import "DetailPlacesTableViewController.h"
+#import "PlaceMapViewController.h"
+#import "FlickrPlaceAnnotation.h"
 
-@interface TopPlacesTableViewController ()
+@interface TopPlacesTableViewController () <PlaceMapViewControllerDelegate>
+
 
 @end
 
@@ -44,7 +47,8 @@
 - (IBAction)refresh:(id)sender {
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [spinner startAnimating];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
+    //self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
     
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
     dispatch_async(downloadQueue, ^{
@@ -57,7 +61,8 @@
         NSArray *sortedTopPlaces = [topPlaces sortedArrayUsingDescriptors:sortDescriptors];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.navigationItem.rightBarButtonItem = sender;
+            //self.navigationItem.rightBarButtonItem = sender;
+            self.navigationItem.leftBarButtonItem = sender;
             self.topPlaces = sortedTopPlaces;
         });
     });
@@ -170,12 +175,42 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"Detail Places View"]) {
+    if ([segue.identifier isEqualToString:@"Photo List View"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         NSLog(@"Detail:indexPath %@", indexPath);
         NSDictionary *place = [self.topPlaces objectAtIndex:indexPath.row];
         [segue.destinationViewController setPlace:place ];
     }
+    else if ([segue.identifier isEqualToString:@"Place Map View"]) {
+        id detail = segue.destinationViewController;
+        if ([detail isKindOfClass:[PlaceMapViewController class]]) {
+            PlaceMapViewController *mapVC = (PlaceMapViewController *)detail;
+            mapVC.delegate = self;
+            mapVC.annotations = [self mapAnnotations];
+            // mapVC.title = self.title;
+        }
+    }
 }
+- (NSArray *)mapAnnotations
+{
+    NSMutableArray *annotations = [NSMutableArray arrayWithCapacity:[self.topPlaces count]];
+    for (NSDictionary *place in self.topPlaces) {
+        [annotations addObject:[FlickrPlaceAnnotation annotationForPhoto:place]];
+    }
+    return annotations;
+}
+
+#pragma mark - PlaceMapViewControllerDelegate
+
+- (UIImage *)mapViewController:(PlaceMapViewController *)sender
+            imageForAnnotation:(id <MKAnnotation>)annotation
+{
+    FlickrPlaceAnnotation *fpa = (FlickrPlaceAnnotation *)annotation;
+    NSURL *url = [FlickrFetcher urlForPhoto:fpa.place format:FlickrPhotoFormatSquare];
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    
+    return data ? [UIImage imageWithData:data] : nil;
+}
+
 
 @end

@@ -1,25 +1,25 @@
 //
-//  PlaceMapViewController.m
+//  PhotoMapViewController.m
 //  FlickrFetcher
 //
 //  Created by Norimasa Nabeta on 2012/08/06.
 //  Copyright (c) 2012年 Norimasa Nabeta. All rights reserved.
 //
 
-#import "PlaceMapViewController.h"
+#import "PhotoMapViewController.h"
 #import <MapKit/MapKit.h>
 //#import "FlickrFetcher.h"
-#import "FlickrPlaceAnnotation.h"
+#import "FlickrPhotoAnnotation.h"
 
-@interface PlaceMapViewController () <MKMapViewDelegate>
+@interface PhotoMapViewController () <MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @end
 
-@implementation PlaceMapViewController
-@synthesize mapView = _mapView;
+@implementation PhotoMapViewController
 @synthesize annotations=_annotations;
+@synthesize mapView=_mapView;
 
-- (IBAction)segMapType:(UISegmentedControl *)sender {
+- (IBAction)segmentMapType:(UISegmentedControl *)sender {
     switch (sender.selectedSegmentIndex) {
         case 1:
             self.mapView.mapType=MKMapTypeSatellite;
@@ -32,6 +32,7 @@
             break;
     }
 }
+
 -(void) updateMapView
 {
     if (self.mapView.annotations) {
@@ -83,9 +84,9 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue
                  sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"MapPhoto List View"]) {
-        FlickrPlaceAnnotation *anno = [self.mapView.selectedAnnotations objectAtIndex:0];
-        [segue.destinationViewController setPlace:anno.place];
+    if ([segue.identifier isEqualToString:@"Map Photo View"]) {
+        FlickrPhotoAnnotation *anno = [self.mapView.selectedAnnotations objectAtIndex:0];
+        [segue.destinationViewController setPhoto:anno.photo];
     }
 }
 
@@ -96,7 +97,7 @@
 calloutAccessoryControlTapped:(UIControl *)control
 {
     NSLog(@"CalloutTapped:");
-    [self performSegueWithIdentifier:@"MapPhoto List View" sender:self];
+    [self performSegueWithIdentifier:@"Map Photo View" sender:self];
 }
 
 
@@ -110,9 +111,9 @@ calloutAccessoryControlTapped:(UIControl *)control
         aView.leftCalloutAccessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
         // could put a rightCalloutAccessoryView here
         aView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    }    
+    }
     aView.annotation = annotation;
-
+    
     [(UIImageView *)aView.leftCalloutAccessoryView setImage:nil];
     
     return aView;
@@ -126,9 +127,9 @@ didAddAnnotationViews:(NSArray *)views
     
     span.latitudeDelta=0.1;
     span.longitudeDelta=0.1;
-
+    
     // TODO: region should include all of the annotations.
-    FlickrPlaceAnnotation *anno=[views objectAtIndex:0];
+    FlickrPhotoAnnotation *anno=[views objectAtIndex:0];
     region.span=span;
     region.center=anno.coordinate;
     

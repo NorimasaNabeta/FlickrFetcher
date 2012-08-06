@@ -77,15 +77,20 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Top Places" id="6t6-Q4-kgp">
-                        <barButtonItem key="rightBarButtonItem" title="Refresh" id="avw-VU-5TG">
+                        <barButtonItem key="leftBarButtonItem" title="Refresh" id="avw-VU-5TG">
                             <connections>
                                 <action selector="refresh:" destination="2Zl-7S-3fI" id="shG-1p-5HN"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="map" id="emi-d3-BT3">
+                            <connections>
+                                <segue destination="tSi-E9-Dxp" kind="push" identifier="Place Map View" id="MYI-Cs-B2b"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                     <connections>
-                        <segue destination="oA3-J7-sw7" kind="push" id="f1e-EZ-QCy"/>
+                        <segue destination="oA3-J7-sw7" kind="push" identifier="Photo List View" id="f1e-EZ-QCy"/>
                     </connections>
                 </tableViewController>
             </objects>
@@ -135,20 +140,20 @@
                     <navigationItem key="navigationItem" title="Detail Places" id="78i-0f-uHT">
                         <barButtonItem key="rightBarButtonItem" title="map" id="dYY-7P-mEA">
                             <connections>
-                                <segue destination="UY6-Qb-LWM" kind="push" id="CX3-c0-63Z"/>
+                                <segue destination="UY6-Qb-LWM" kind="push" identifier="Photo Map View" id="CX3-c0-63Z"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="1344" y="-680"/>
+            <point key="canvasLocation" x="1866" y="-674"/>
         </scene>
-        <!--Place Map View Controller - Place Map-->
+        <!--Photo Map View Controller - Photo Map-->
         <scene sceneID="IcI-NO-zrX">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RLq-IC-5Mf" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController id="UY6-Qb-LWM" customClass="PlaceMapViewController" sceneMemberID="viewController">
+                <viewController id="UY6-Qb-LWM" customClass="PhotoMapViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hxb-9P-HDp">
                         <rect key="frame" x="0.0" y="64" width="320" height="739"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -166,20 +171,20 @@
                                     <segment title="Hybrid"/>
                                 </segments>
                                 <connections>
-                                    <action selector="segmentMapType:" destination="UY6-Qb-LWM" eventType="valueChanged" id="Biu-Br-kWq"/>
+                                    <action selector="segmentMapType:" destination="UY6-Qb-LWM" eventType="valueChanged" id="Bf3-B4-X1n"/>
                                 </connections>
                             </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Place Map" id="Wu0-ZP-hI1"/>
+                    <navigationItem key="navigationItem" title="Photo Map" id="Wu0-ZP-hI1"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                     <connections>
-                        <outlet property="mapView" destination="riS-H4-l9P" id="qdE-Z9-Pce"/>
+                        <outlet property="mapView" destination="riS-H4-l9P" id="hue-GD-hWG"/>
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1882" y="-680"/>
+            <point key="canvasLocation" x="2419" y="-11"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Led-R6-5c1">
@@ -305,6 +310,44 @@
             </objects>
             <point key="canvasLocation" x="772" y="406"/>
         </scene>
+        <!--Place Map View Controller - Place Map-->
+        <scene sceneID="AEQ-vb-gdd">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5mi-cb-gBg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="tSi-E9-Dxp" customClass="PlaceMapViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="036-8G-faP">
+                        <rect key="frame" x="0.0" y="64" width="320" height="739"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="TNS-dE-7kK">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="739"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </mapView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="iVv-35-aF2">
+                                <rect key="frame" x="57" y="690" width="207" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Normal"/>
+                                    <segment title="Satelite"/>
+                                    <segment title="Hybrid"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segMapType:" destination="tSi-E9-Dxp" eventType="valueChanged" id="Vse-n7-4ae"/>
+                                </connections>
+                            </segmentedControl>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Place Map" id="rua-qA-ihg"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
+                    <connections>
+                        <outlet property="mapView" destination="TNS-dE-7kK" id="chS-OT-CQz"/>
+                        <segue destination="oA3-J7-sw7" kind="push" identifier="MapPhoto List View" id="eNv-Xn-a2p"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1308" y="-3"/>
+        </scene>
     </scenes>
     <resources>
         <image name="second.png" width="30" height="30"/>
@@ -320,10 +363,16 @@
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
             </relationships>
         </class>
+        <class className="PhotoMapViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotoMapViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+            </relationships>
+        </class>
         <class className="PlaceMapViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PlaceMapViewController.h"/>
             <relationships>
-                <relationship kind="action" name="segmentMapType:" candidateClass="UISegmentedControl"/>
+                <relationship kind="action" name="segMapType:" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
             </relationships>
         </class>
@@ -342,4 +391,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="eNv-Xn-a2p"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -10,11 +10,11 @@
 #import <MapKit/MapKit.h>
 
 @class PlaceMapViewController;
-@protocol MapViewControllerDelegate <NSObject>
+@protocol PlaceMapViewControllerDelegate <NSObject>
 - (UIImage *)mapViewController:(PlaceMapViewController *)sender imageForAnnotation:(id <MKAnnotation>)annotation;
 @end
 
 @interface PlaceMapViewController : UIViewController
 @property (nonatomic, strong) NSArray *annotations; // of id <MKAnnotation>
-@property (nonatomic,weak) id <MapViewControllerDelegate> delegate;
+@property (nonatomic,weak) id <PlaceMapViewControllerDelegate> delegate;
 @end

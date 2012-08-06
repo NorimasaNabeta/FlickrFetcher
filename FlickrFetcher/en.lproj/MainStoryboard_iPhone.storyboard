@@ -25,10 +25,47 @@
             <point key="canvasLocation" x="-200" y="-93"/>
         </scene>
         <!--Place Map View Controller - Place Map-->
+        <scene sceneID="B5N-8L-TVa">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RVD-IQ-FqW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="RfL-Cs-Pho" customClass="PlaceMapViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="928-Cr-QFJ">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="gut-s9-58n">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </mapView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="XdR-tg-ghs">
+                                <rect key="frame" x="57" y="321" width="207" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Normal"/>
+                                    <segment title="Satelite"/>
+                                    <segment title="Hybrid"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segMapType:" destination="RfL-Cs-Pho" eventType="valueChanged" id="qb1-Wg-PIl"/>
+                                </connections>
+                            </segmentedControl>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Place Map" id="W5P-r4-SwK"/>
+                    <connections>
+                        <outlet property="mapView" destination="gut-s9-58n" id="s6m-Z7-RFl"/>
+                        <segue destination="O0y-xt-IWl" kind="push" identifier="MapPhoto List View" id="u3k-H8-MJU"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1212" y="-1435"/>
+        </scene>
+        <!--Photo Map View Controller - Photo Map-->
         <scene sceneID="SeE-1V-ZvJ">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ind-aM-6O8" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController id="q6o-FI-PJL" customClass="PlaceMapViewController" sceneMemberID="viewController">
+                <viewController id="q6o-FI-PJL" customClass="PhotoMapViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HqB-us-0UM">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -46,20 +83,20 @@
                                     <segment title="Hybrid"/>
                                 </segments>
                                 <connections>
-                                    <action selector="segmentMapType:" destination="q6o-FI-PJL" eventType="valueChanged" id="86Y-7E-8mG"/>
+                                    <action selector="segmentMapType:" destination="q6o-FI-PJL" eventType="valueChanged" id="RSu-9w-M1P"/>
                                 </connections>
                             </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Place Map" id="HjQ-Sh-64B"/>
+                    <navigationItem key="navigationItem" title="Photo Map" id="HjQ-Sh-64B"/>
                     <connections>
-                        <outlet property="mapView" destination="4wB-Ov-2C5" id="Wtd-nd-xyR"/>
+                        <outlet property="mapView" destination="4wB-Ov-2C5" id="4Ee-bw-xcA"/>
                         <segue destination="f8Y-gI-2B8" kind="push" identifier="Map Photo View" id="CMM-hz-gOL"/>
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1784" y="-718"/>
+            <point key="canvasLocation" x="2028" y="-1453"/>
         </scene>
         <!--Detail Places Table View Controller - Detail Places-->
         <scene sceneID="aB2-N7-lcg">
@@ -108,13 +145,13 @@
                     <navigationItem key="navigationItem" title="Detail Places" id="JYC-bK-xh2">
                         <barButtonItem key="rightBarButtonItem" title="map" id="Erd-UF-0vw">
                             <connections>
-                                <segue destination="q6o-FI-PJL" kind="push" identifier="Places Map View" id="p9O-Yn-giZ"/>
+                                <segue destination="q6o-FI-PJL" kind="push" identifier="Photo Map View" id="p9O-Yn-giZ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="1306" y="-718"/>
+            <point key="canvasLocation" x="1646" y="-718"/>
         </scene>
         <!--Flickr Photo View Controller - Flickr Photo-->
         <scene sceneID="RCd-be-Qr3">
@@ -145,7 +182,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="2241" y="-203"/>
+            <point key="canvasLocation" x="2773" y="-243"/>
         </scene>
         <!--Top Places Table View Controller - Top Places-->
         <scene sceneID="AqB-2Q-zoQ">
@@ -182,7 +219,7 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <connections>
-                                    <segue destination="O0y-xt-IWl" kind="push" identifier="Detail Places View" id="S0z-vM-qYq"/>
+                                    <segue destination="O0y-xt-IWl" kind="push" identifier="Photo List View" id="S0z-vM-qYq"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -192,9 +229,14 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Top Places" id="r9Z-Da-Ck9">
-                        <barButtonItem key="rightBarButtonItem" title="Refresh" id="4ua-Wx-hLP">
+                        <barButtonItem key="leftBarButtonItem" title="Refresh" id="4ua-Wx-hLP">
                             <connections>
                                 <action selector="refresh:" destination="WuO-5U-HyA" id="aKY-dg-t7I"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="map" id="iwe-cJ-8N0">
+                            <connections>
+                                <segue destination="RfL-Cs-Pho" kind="push" identifier="Place Map View" id="ZNx-09-6Tu"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -305,10 +347,17 @@
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
             </relationships>
         </class>
+        <class className="PhotoMapViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotoMapViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="segmentMapType:" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+            </relationships>
+        </class>
         <class className="PlaceMapViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PlaceMapViewController.h"/>
             <relationships>
-                <relationship kind="action" name="segmentMapType:" candidateClass="UISegmentedControl"/>
+                <relationship kind="action" name="segMapType:" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
             </relationships>
         </class>
@@ -317,6 +366,9 @@
         </class>
         <class className="TopPlacesTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/TopPlacesTableViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="refresh:"/>
+            </relationships>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -325,6 +377,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="ya2-mp-iDk"/>
+        <segue reference="u3k-H8-MJU"/>
+        <segue reference="CMM-hz-gOL"/>
     </inferredMetricsTieBreakers>
 </document>
