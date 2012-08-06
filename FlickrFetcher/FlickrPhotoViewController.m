@@ -18,6 +18,18 @@
 @synthesize scrollView;
 @synthesize imageView;
 
+// http://piazza.com/class#summer2012/codingtogether/1519
+// うまくいかない→setup the struts and strings of the scrollView -->OK
+-(void) resetScrollView
+{
+//    self.scrollView.contentSize = self.imageView.image.size;
+//    self.imageView.frame = CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);
+    CGFloat horZoomScale = self.scrollView.bounds.size.width / self.imageView.image.size.width;
+    CGFloat verZoomScale = self.scrollView.bounds.size.height / self.imageView.image.size.height;
+    [self.scrollView setZoomScale:MAX(horZoomScale, verZoomScale)];
+    [self.scrollView setNeedsDisplay];
+}
+
 -(void) resetView
 {
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -34,12 +46,14 @@
         self.title = [FlickrFetcher stringValueFromKey:self.photo nameKey:FLICKR_PHOTO_TITLE];
         NSData *photo = [NSData dataWithContentsOfURL:urlPhoto];
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.imageView.image = [UIImage imageWithData:photo];
-            self.imageView.frame=CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);
             self.scrollView.delegate=self;
-            self.scrollView.contentSize=self.imageView.image.size;
+            self.scrollView.zoomScale=1.0;
             self.scrollView.minimumZoomScale=0.2;
             self.scrollView.maximumZoomScale=5.0;
+            self.imageView.image = [UIImage imageWithData:photo];
+            self.imageView.frame=CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);
+            self.scrollView.contentSize=self.imageView.image.size;
+            [self resetScrollView];
             self.navigationItem.rightBarButtonItem = nil;
         });
     });
@@ -53,6 +67,14 @@
         _photo = photo;
         [self resetView];
     }
+}
+
+//  Psychologist/RotatableViewController.m
+-(void) awakeFromNib
+{
+    [super awakeFromNib];
+    NSLog(@"nib %g %g", self.scrollView.frame.size.width, self.scrollView.frame.size.height);
+    [self resetScrollView];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil

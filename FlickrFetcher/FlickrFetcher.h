@@ -15,6 +15,9 @@
 #define FLICKR_PHOTO_ID @"id"
 #define FLICKR_PHOTO_OWNER @"ownername"
 
+#define FLICKR_LATITUDE @"latitude"
+#define FLICKR_LONGITUDE @"longitude"
+
 #define FAVORITES_KEY @"FavaritePhoto"
 
 typedef enum {

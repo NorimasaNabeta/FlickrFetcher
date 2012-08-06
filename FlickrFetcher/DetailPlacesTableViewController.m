@@ -9,8 +9,10 @@
 #import "DetailPlacesTableViewController.h"
 #import "FlickrFetcher.h"
 #import "FlickrPhotoViewController.h"
+#import "PlaceMapViewController.h"
+#import "FlickrPhotoAnnotation.h"
 
-@interface DetailPlacesTableViewController ()
+@interface DetailPlacesTableViewController () <MapViewControllerDelegate>
 @end
 
 @implementation DetailPlacesTableViewController
@@ -34,12 +36,14 @@
 - (void) resetPlaces:(NSDictionary *)place {
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [spinner startAnimating];
+    UIBarButtonItem *backupButtonItem = self.navigationItem.rightBarButtonItem;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
     
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader2", NULL);
     dispatch_async(downloadQueue, ^{
         NSArray *detailPlaces = [FlickrFetcher photosInPlace:place maxResults:50];
         NSLog(@"[DETAIL] Download cont: %d", [detailPlaces count]);
+
         // detailPacces must be also display in alphabetical order.
         // Reuiqred Task #2
         NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:FLICKR_PHOTO_TITLE ascending:YES];
@@ -49,7 +53,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             // self.navigationItem.rightBarButtonItem = sender;
             self.detailPlaces = sortedDetailPlaces;
-            self.navigationItem.rightBarButtonItem=nil;
+            self.navigationItem.rightBarButtonItem=backupButtonItem;
         });
     });
     dispatch_release(downloadQueue);
@@ -59,11 +63,9 @@
 {
     if(_place != place){
         _place = place;
-        [self resetPlaces:place];
-        
         self.title = [FlickrFetcher namePlace:place];
+        [self resetPlaces:place];
         [self.tableView reloadData];
-        
     }
 }
 
@@ -120,45 +122,6 @@
  
     return cell;
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 
@@ -229,6 +192,49 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 
         [segue.destinationViewController setPhoto:photo ];
     }
+    else if ([segue.identifier isEqualToString:@"Places Map View"]) {
+        // NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        // NSLog(@"Map:indexPath %@", indexPath);
+        id detail = segue.destinationViewController;
+        if ([detail isKindOfClass:[PlaceMapViewController class]]) {
+            PlaceMapViewController *mapVC = (PlaceMapViewController *)detail;
+            mapVC.delegate = self;
+            mapVC.annotations = [self mapAnnotations];
+            // mapVC.title = self.title;
+        }
+
+    }
+}
+
+- (NSArray *)mapAnnotations
+{
+    NSMutableArray *annotations = [NSMutableArray arrayWithCapacity:[self.detailPlaces count]];
+    for (NSDictionary *photo in self.detailPlaces) {
+        [annotations addObject:[FlickrPhotoAnnotation annotationForPhoto:photo]];
+    }
+    return annotations;
+}
+
+- (void)updateSplitViewDetail
+{
+    id detail = [self.splitViewController.viewControllers lastObject];
+    if ([detail isKindOfClass:[PlaceMapViewController class]]) {
+        PlaceMapViewController *mapVC = (PlaceMapViewController *)detail;
+        mapVC.delegate = self;
+        mapVC.annotations = [self mapAnnotations];
+    }
+}
+
+#pragma mark - MapViewControllerDelegate
+
+- (UIImage *)mapViewController:(PlaceMapViewController *)sender
+            imageForAnnotation:(id <MKAnnotation>)annotation
+{
+    FlickrPhotoAnnotation *fpa = (FlickrPhotoAnnotation *)annotation;
+    NSURL *url = [FlickrFetcher urlForPhoto:fpa.photo format:FlickrPhotoFormatSquare];
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    
+    return data ? [UIImage imageWithData:data] : nil;
 }
 
 

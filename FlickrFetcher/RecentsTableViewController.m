@@ -16,6 +16,10 @@
 
 @implementation RecentsTableViewController
 
+
+//
+// recent-list が更新されてもバッジの値に反映されないのはどうしたものか
+// →バッジはrequiredTask じゃないからいいけど.
 - (NSArray*) recentPlaces
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -161,7 +165,8 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 }
 
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)prepareForSegue:(UIStoryboardSegue *)segue
+                 sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"Recents Photo View"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
