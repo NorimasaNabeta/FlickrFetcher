@@ -82,6 +82,8 @@
     
     // TODO: if the total size of files exceed 10MB, the first file in the sorted list will be removed.
     if (fileSize > PHOTO_CACHE_SIZE_MAX){
+        
+        // TODO: continue to delete files until the total size less than PHOTO_CACHE_SIZE_MAX
         fileName = [[sortedFiles objectAtIndex:0] objectForKey:@"fileName"];
         NSError  *error = nil;
        [mgr removeItemAtPath:[path stringByAppendingPathComponent:fileName] error:&error];
@@ -106,12 +108,10 @@
 
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr image downloader", NULL);
     dispatch_async(downloadQueue, ^{
-        // TODO: check the cache directory before query to Flickr
         NSFileManager *mgr = [NSFileManager defaultManager];
         NSString *idPhoto = [FlickrFetcher stringValueFromKey:self.photo nameKey:FLICKR_PHOTO_ID];
         NSArray  *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *bundlePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Cache"];
-
         
         //
         // http://stackoverflow.com/questions/6125819/is-there-a-safer-way-to-create-a-directory-if-it-does-not-exist
@@ -120,6 +120,7 @@
         if (error != nil) {
             NSLog(@"error creating directory: %@", error);
             // but do nothing
+            // in this case, cache function must be stopped.
         }
         NSString *pathPhoto = [bundlePath stringByAppendingPathComponent:idPhoto];
         
@@ -195,7 +196,6 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
-//    [self resetView];
 }
 
 - (void)viewDidUnload
@@ -208,7 +208,6 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    //return (interfaceOrientation == UIInterfaceOrientationPortrait);
     return YES;
 }
 

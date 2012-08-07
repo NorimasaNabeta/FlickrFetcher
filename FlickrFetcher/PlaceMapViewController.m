@@ -19,6 +19,8 @@
 @synthesize mapView = _mapView;
 @synthesize annotations=_annotations;
 
+// ExtraCredit2
+//
 - (IBAction)segMapType:(UISegmentedControl *)sender {
     switch (sender.selectedSegmentIndex) {
         case 1:
@@ -90,7 +92,6 @@
 }
 
 #pragma mark - MKMapViewDelegate
-
 -(void) mapView:(MKMapView *)mapView
  annotationView:(MKAnnotationView *)view
 calloutAccessoryControlTapped:(UIControl *)control
@@ -112,7 +113,6 @@ calloutAccessoryControlTapped:(UIControl *)control
         aView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     }    
     aView.annotation = annotation;
-
     [(UIImageView *)aView.leftCalloutAccessoryView setImage:nil];
     
     return aView;

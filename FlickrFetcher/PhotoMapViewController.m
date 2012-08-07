@@ -119,9 +119,38 @@ calloutAccessoryControlTapped:(UIControl *)control
     return aView;
 }
 
+// @1640 (Eytan Bernet's code)
+#define __EYTANS_CODE__ 1
 -(void) mapView:(MKMapView *)mapView
 didAddAnnotationViews:(NSArray *)views
 {
+#ifdef __EYTANS_CODE__
+    if (self.annotations && self.mapView.window) {
+        // Set min and max to the 1st object in the annotations
+        __block CLLocationCoordinate2D min = [[self.annotations objectAtIndex:0] coordinate];
+        __block CLLocationCoordinate2D max = min;
+        
+        [self.annotations enumerateObjectsUsingBlock:^(id element, NSUInteger idx, BOOL *stop){
+            // We want to throw an error if it is not a dictionary
+            assert([element isKindOfClass:[FlickrPhotoAnnotation class]]);
+            FlickrPhotoAnnotation *location = element;
+            
+            // Get the coordinates name for each location
+            CLLocationCoordinate2D currentCcoordinate = location.coordinate;
+            
+            min.latitude = MIN(min.latitude, currentCcoordinate.latitude);
+            min.longitude = MIN(min.longitude, currentCcoordinate.longitude);
+            max.latitude = MAX(max.latitude, currentCcoordinate.latitude);
+            max.longitude = MAX(max.longitude, currentCcoordinate.longitude);
+        }];
+        
+        CLLocationCoordinate2D center = CLLocationCoordinate2DMake((max.latitude + min.latitude)/2.0, (max.longitude + min.longitude)/2.0);
+        MKCoordinateSpan span = MKCoordinateSpanMake(max.latitude - min.latitude, max.longitude - min.longitude);
+        MKCoordinateRegion region = MKCoordinateRegionMake(center, span);
+        
+        [self.mapView setRegion:[self.mapView regionThatFits:region] animated:YES];
+    }
+#else // #ifdef __EYTANS_CODE__
     MKCoordinateRegion region;
     MKCoordinateSpan span;
     
@@ -135,6 +164,7 @@ didAddAnnotationViews:(NSArray *)views
     
     [mapView setRegion:region animated:TRUE];
     [mapView regionThatFits:region];
+#endif // #ifdef __EYTANS_CODE__
 }
 
 - (void)mapView:(MKMapView *)mapView
