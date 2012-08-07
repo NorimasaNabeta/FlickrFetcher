@@ -104,13 +104,28 @@ calloutAccessoryControlTapped:(UIControl *)control
 - (MKAnnotationView *)mapView:(MKMapView *)mapView
             viewForAnnotation:(id<MKAnnotation>)annotation
 {
-    MKAnnotationView *aView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"MapVC"];
+    static NSString* PhotoAnnotationIdentifier = @"PhotoAnnotationIdentifier";
+    MKAnnotationView *aView = [mapView dequeueReusableAnnotationViewWithIdentifier:PhotoAnnotationIdentifier];
     if (!aView) {
-        aView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"MapVC"];
+        aView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:PhotoAnnotationIdentifier];
         aView.canShowCallout = YES;
         aView.leftCalloutAccessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
         // could put a rightCalloutAccessoryView here
         aView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        
+        // Apple "MapCallouts" sample >>
+        // add a detail disclosure button to the callout which will open a new view controller page
+        //
+        // note: you can assign a specific call out accessory view, or as MKMapViewDelegate you can implement:
+        //  - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control;
+        //
+        // UIButton* rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        // [rightButton addTarget:self
+        //                 action:@selector(showDetails:)
+        //       forControlEvents:UIControlEventTouchUpInside];
+        // aView.rightCalloutAccessoryView = rightButton;
+        // Apple "MapCallouts" sample <<
+
     }
     aView.annotation = annotation;
     
@@ -178,7 +193,6 @@ didSelectAnnotationView:(MKAnnotationView *)aView
     spinner.bounds = aView.leftCalloutAccessoryView.bounds;
     spinner.hidesWhenStopped = YES;
     spinner.alpha = 0.7f;
-    spinner.backgroundColor = [UIColor redColor];
 
     aView.leftCalloutAccessoryView = spinner;
     //[UIImage imageWithData:data]
