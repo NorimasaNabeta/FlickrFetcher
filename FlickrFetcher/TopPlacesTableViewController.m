@@ -201,7 +201,7 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 }
 
 #pragma mark - PlaceMapViewControllerDelegate
-
+// This is not working because of no image for the place in Flickr.
 - (UIImage *)mapViewController:(PlaceMapViewController *)sender
             imageForAnnotation:(id <MKAnnotation>)annotation
 {

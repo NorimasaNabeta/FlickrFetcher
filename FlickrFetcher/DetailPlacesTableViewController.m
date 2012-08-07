@@ -96,6 +96,11 @@
     // e.g. self.myOutlet = nil;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [self.tableView reloadData];
+    [super viewWillAppear:animated];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
@@ -119,7 +124,26 @@
     NSDictionary *photo = [self.detailPlaces objectAtIndex:indexPath.row];
     cell.textLabel.text=[FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE];
     cell.detailTextLabel.text=[FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_DESCRIPTION];
- 
+
+    // ExtraCredit1
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [spinner startAnimating];
+    spinner.hidesWhenStopped = YES;
+    spinner.center=CGPointMake(20, 20); // <-- check !
+    spinner.alpha = 0.7f;
+    [cell.imageView addSubview:spinner];
+    dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader4", NULL);
+    dispatch_async(downloadQueue, ^{
+        NSURL *url = [FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatSquare];
+        NSData *data = [NSData dataWithContentsOfURL:url];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [cell.imageView setImage:[UIImage imageWithData:data]];
+            [spinner stopAnimating];
+            [spinner removeFromSuperview];
+        });
+    });
+    dispatch_release(downloadQueue);
+    
     return cell;
 }
 
@@ -229,7 +253,7 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 
 - (UIImage *)mapViewController:(PhotoMapViewController *)sender
             imageForAnnotation:(id <MKAnnotation>)annotation
-{
+{    
     FlickrPhotoAnnotation *fpa = (FlickrPhotoAnnotation *)annotation;
     NSURL *url = [FlickrFetcher urlForPhoto:fpa.photo format:FlickrPhotoFormatSquare];
     NSData *data = [NSData dataWithContentsOfURL:url];

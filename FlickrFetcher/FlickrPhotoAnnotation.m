@@ -17,7 +17,7 @@
 {
     FlickrPhotoAnnotation *annotation = [[FlickrPhotoAnnotation alloc] init];
     annotation.photo = photo;
-    NSLog(@"ANN:%@", [FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE]);
+    // NSLog(@"ANN:%@", [FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE]);
     return annotation;
 }
 

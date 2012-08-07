@@ -108,12 +108,12 @@ calloutAccessoryControlTapped:(UIControl *)control
     if (!aView) {
         aView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"MapVC"];
         aView.canShowCallout = YES;
-        aView.leftCalloutAccessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+        // aView.leftCalloutAccessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
         // could put a rightCalloutAccessoryView here
         aView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     }    
     aView.annotation = annotation;
-    [(UIImageView *)aView.leftCalloutAccessoryView setImage:nil];
+    // [(UIImageView *)aView.leftCalloutAccessoryView setImage:nil];
     
     return aView;
 }
@@ -139,8 +139,9 @@ didAddAnnotationViews:(NSArray *)views
 - (void)mapView:(MKMapView *)mapView
 didSelectAnnotationView:(MKAnnotationView *)aView
 {
-    UIImage *image = [self.delegate mapViewController:self imageForAnnotation:aView.annotation];
-    [(UIImageView *)aView.leftCalloutAccessoryView setImage:image];
+// NO-NEEDED
+//    UIImage *image = [self.delegate mapViewController:self imageForAnnotation:aView.annotation];
+//    [(UIImageView *)aView.leftCalloutAccessoryView setImage:image];
 }
 
 @end
