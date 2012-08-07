@@ -44,7 +44,60 @@
 //  -->Library/Preferance/
 //  -->tmp:
 
-// TODO: limit file size.
+//#define PHOTO_CACHE_DEBUG 1
+//#define PHOTO_CACHE_SIZE_MAX (10 * 1024 * 1024)
+#define PHOTO_CACHE_SIZE_MAX (2 * 1024 * 1024)
+
+#ifdef PHOTO_CACHE_DEBUG
+#endif //#ifdef PHOTO_CACHE_DEBUG
+- (unsigned long long int) checkCacheSize:(NSString *)path
+{
+    NSFileManager *mgr = [NSFileManager defaultManager];
+    NSArray *filesArray = [mgr subpathsOfDirectoryAtPath:path error:nil];
+
+    NSEnumerator *filesEnumerator = [filesArray objectEnumerator];
+    NSString *fileName;
+    unsigned long long int fileSize = 0;
+    NSMutableArray* filesAndProperties = [NSMutableArray arrayWithCapacity:[filesArray count]];
+    while (fileName = [filesEnumerator nextObject]) {
+        NSDictionary *fileDictionary = [mgr attributesOfItemAtPath:[path stringByAppendingPathComponent:fileName] error:nil];
+        fileSize += [fileDictionary fileSize];
+        [filesAndProperties addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                       fileName, @"fileName",
+                                       [fileDictionary fileModificationDate], @"fileModificationDate",
+                                       nil]];
+#ifdef PHOTO_CACHE_DEBUG
+        NSLog(@"%@ %lld %@", fileName, [fileDictionary fileSize], [fileDictionary fileModificationDate]);
+#endif //#ifdef PHOTO_CACHE_DEBUG
+    }
+    NSArray* sortedFiles = [filesAndProperties sortedArrayUsingComparator:^(id path1, id path2){
+        return [[path1 objectForKey:@"fileModificationDate"] compare: [path2 objectForKey:@"fileModificationDate"]];
+    }];
+
+#ifdef PHOTO_CACHE_DEBUG
+    for(NSDictionary* dicFile in sortedFiles) {
+        NSLog(@"%@ %@", [dicFile objectForKey:@"fileName"], [dicFile objectForKey:@"fileModificationDate"]);
+    }
+#endif //#ifdef PHOTO_CACHE_DEBUG
+    
+    // TODO: if the total size of files exceed 10MB, the first file in the sorted list will be removed.
+    if (fileSize > PHOTO_CACHE_SIZE_MAX){
+        fileName = [[sortedFiles objectAtIndex:0] objectForKey:@"fileName"];
+        NSError  *error = nil;
+       [mgr removeItemAtPath:[path stringByAppendingPathComponent:fileName] error:&error];
+        if (error != nil) {
+            NSLog(@"REMOVE ERROR: %@", error);
+        }
+        else {
+            NSDictionary *fileDictionary = [mgr attributesOfItemAtPath:[path stringByAppendingPathComponent:fileName] error:nil];
+            NSLog(@"REMOVE: %@ %lld %@", fileName, [fileDictionary fileSize], [fileDictionary fileModificationDate]);
+        }
+    }
+    
+    return fileSize;
+}
+
+
 -(void) resetView
 {
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -58,6 +111,10 @@
         NSString *idPhoto = [FlickrFetcher stringValueFromKey:self.photo nameKey:FLICKR_PHOTO_ID];
         NSArray  *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *bundlePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Cache"];
+
+        
+        //
+        // http://stackoverflow.com/questions/6125819/is-there-a-safer-way-to-create-a-directory-if-it-does-not-exist
         NSError  *error = nil;
         [mgr createDirectoryAtPath:bundlePath withIntermediateDirectories:YES attributes:nil error:&error];
         if (error != nil) {
@@ -87,8 +144,12 @@
             self.navigationItem.rightBarButtonItem = nil;
 
             if(! [mgr fileExistsAtPath:pathPhoto]){
+                unsigned long long int fileSize = [self checkCacheSize:bundlePath];
                 // [UIImagePNGRepresentation(self.imageView.image) writeToFile:pathPhoto atomically:YES];
                 [photo writeToFile:pathPhoto atomically:YES];
+#ifdef PHOTO_CACHE_DEBUG
+#endif //#ifdef PHOTO_CACHE_DEBUG
+                NSLog(@"Cache Size1: %llu %@", fileSize, bundlePath);
                 NSLog(@"Push Cache: %@", pathPhoto);
             }
         });
