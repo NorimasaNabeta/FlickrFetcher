@@ -44,7 +44,6 @@
 //  -->Library/Preferance/
 //  -->tmp:
 
-// TODO: "Documents/Cache/" directory
 // TODO: limit file size.
 -(void) resetView
 {
@@ -54,14 +53,21 @@
 
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr image downloader", NULL);
     dispatch_async(downloadQueue, ^{
-        // TODO: check the cache directory before query to Flickr        
+        // TODO: check the cache directory before query to Flickr
+        NSFileManager *mgr = [NSFileManager defaultManager];
         NSString *idPhoto = [FlickrFetcher stringValueFromKey:self.photo nameKey:FLICKR_PHOTO_ID];
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *pathPhoto = [documentsDirectory stringByAppendingPathComponent:idPhoto];
+        NSArray  *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *bundlePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Cache"];
+        NSError  *error = nil;
+        [mgr createDirectoryAtPath:bundlePath withIntermediateDirectories:YES attributes:nil error:&error];
+        if (error != nil) {
+            NSLog(@"error creating directory: %@", error);
+            // but do nothing
+        }
+        NSString *pathPhoto = [bundlePath stringByAppendingPathComponent:idPhoto];
         
         NSData *photo;
-        if([[NSFileManager defaultManager] fileExistsAtPath:pathPhoto]){
+        if([mgr fileExistsAtPath:pathPhoto]){
             NSLog(@"Cache HIT: %@", pathPhoto);
             photo = [NSData dataWithContentsOfFile:pathPhoto];
         } else {
@@ -80,11 +86,9 @@
             [self resetScrollView];
             self.navigationItem.rightBarButtonItem = nil;
 
-            if(! [[NSFileManager defaultManager] fileExistsAtPath:pathPhoto]){
-                // TODO: save current image data into the cache with photo_id
-                // NSData *imageData = [NSData dataWithData:UIImagePNGRepresentation(self.imageView.image)];
-                [photo writeToFile:pathPhoto atomically:YES];
+            if(! [mgr fileExistsAtPath:pathPhoto]){
                 // [UIImagePNGRepresentation(self.imageView.image) writeToFile:pathPhoto atomically:YES];
+                [photo writeToFile:pathPhoto atomically:YES];
                 NSLog(@"Push Cache: %@", pathPhoto);
             }
         });
