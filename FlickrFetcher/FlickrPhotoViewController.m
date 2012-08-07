@@ -31,21 +31,44 @@
     [self.scrollView setNeedsDisplay];
 }
 
+// http://stackoverflow.com/questions/11587513/how-to-center-uiactivityindicator
+//spinner.center = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));
+// http://stackoverflow.com/questions/8585715/could-not-resize-the-activity-indicator-in-ios-5-0
+//spinner.transform = CGAffineTransformMakeScale(2.0f, 2.0f);
+//
+
+// /Users/NorimasaNabeta/Library/Application Support/iPhone Simulator/5.1/Applications/B6BEC9A8-37AE-41A2-8865-ECAD547FF57C/
+//  -->Documents/
+//  -->FlickrFetcher.app/
+//  -->Library/Caches/
+//  -->Library/Preferance/
+//  -->tmp:
+
+// TODO: "Documents/Cache/" directory
+// TODO: limit file size.
 -(void) resetView
 {
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    // http://stackoverflow.com/questions/11587513/how-to-center-uiactivityindicator
-    //spinner.center = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));
-    // http://stackoverflow.com/questions/8585715/could-not-resize-the-activity-indicator-in-ios-5-0
-    //spinner.transform = CGAffineTransformMakeScale(2.0f, 2.0f);
     [spinner startAnimating];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
-    
+
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr image downloader", NULL);
     dispatch_async(downloadQueue, ^{
-        NSURL *urlPhoto = [FlickrFetcher urlForPhoto:self.photo format:FlickrPhotoFormatLarge];
-        self.title = [FlickrFetcher stringValueFromKey:self.photo nameKey:FLICKR_PHOTO_TITLE];
-        NSData *photo = [NSData dataWithContentsOfURL:urlPhoto];
+        // TODO: check the cache directory before query to Flickr        
+        NSString *idPhoto = [FlickrFetcher stringValueFromKey:self.photo nameKey:FLICKR_PHOTO_ID];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *pathPhoto = [documentsDirectory stringByAppendingPathComponent:idPhoto];
+        
+        NSData *photo;
+        if([[NSFileManager defaultManager] fileExistsAtPath:pathPhoto]){
+            NSLog(@"Cache HIT: %@", pathPhoto);
+            photo = [NSData dataWithContentsOfFile:pathPhoto];
+        } else {
+            NSLog(@"Cache MISS: %@", pathPhoto);
+            NSURL *urlPhoto = [FlickrFetcher urlForPhoto:self.photo format:FlickrPhotoFormatLarge];
+            photo = [NSData dataWithContentsOfURL:urlPhoto];
+        }
         dispatch_async(dispatch_get_main_queue(), ^{
             self.scrollView.delegate=self;
             self.scrollView.zoomScale=1.0;
@@ -56,9 +79,19 @@
             self.scrollView.contentSize=self.imageView.image.size;
             [self resetScrollView];
             self.navigationItem.rightBarButtonItem = nil;
+
+            if(! [[NSFileManager defaultManager] fileExistsAtPath:pathPhoto]){
+                // TODO: save current image data into the cache with photo_id
+                // NSData *imageData = [NSData dataWithData:UIImagePNGRepresentation(self.imageView.image)];
+                [photo writeToFile:pathPhoto atomically:YES];
+                // [UIImagePNGRepresentation(self.imageView.image) writeToFile:pathPhoto atomically:YES];
+                NSLog(@"Push Cache: %@", pathPhoto);
+            }
         });
     });
     dispatch_release(downloadQueue);
+
+    self.title = [FlickrFetcher stringValueFromKey:self.photo nameKey:FLICKR_PHOTO_TITLE];
     [self.view setNeedsDisplay];
 }
 
@@ -74,7 +107,7 @@
 -(void) awakeFromNib
 {
     [super awakeFromNib];
-    NSLog(@"nib %g %g", self.scrollView.frame.size.width, self.scrollView.frame.size.height);
+    NSLog(@"FlickrPhotoViewController.awakeFromNib %g %g", self.scrollView.frame.size.width, self.scrollView.frame.size.height);
     [self resetScrollView];
     self.splitViewController.delegate=self;
 }
@@ -97,7 +130,7 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    [self resetView];
+//    [self resetView];
 }
 
 - (void)viewDidUnload

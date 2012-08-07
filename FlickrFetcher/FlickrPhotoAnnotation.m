@@ -17,20 +17,21 @@
 {
     FlickrPhotoAnnotation *annotation = [[FlickrPhotoAnnotation alloc] init];
     annotation.photo = photo;
-    NSLog(@"ANN:%@", [photo objectForKey:FLICKR_PHOTO_TITLE]);
+    NSLog(@"ANN:%@", [FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE]);
     return annotation;
 }
 
 #pragma mark - MKAnnotation
-
 - (NSString *)title
 {
-    return [self.photo objectForKey:FLICKR_PHOTO_TITLE];
+    //return [self.photo objectForKey:FLICKR_PHOTO_TITLE];
+    return [FlickrFetcher stringValueFromKey:self.photo nameKey:FLICKR_PHOTO_TITLE];
 }
 
 - (NSString *)subtitle
 {
-    return [self.photo valueForKeyPath:FLICKR_PHOTO_DESCRIPTION];
+    //return [self.photo valueForKeyPath:FLICKR_PHOTO_DESCRIPTION];
+    return [FlickrFetcher stringValueFromKey:self.photo nameKey:FLICKR_PHOTO_DESCRIPTION];
 }
 
 - (CLLocationCoordinate2D)coordinate
