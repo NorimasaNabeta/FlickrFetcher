@@ -37,6 +37,7 @@
 		F231E03115CF6AF8003124B9 /* PhotoMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F231E03015CF6AF7003124B9 /* PhotoMapViewController.m */; };
 		F231E03715CF7400003124B9 /* FlickrPlaceAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = F231E03615CF7400003124B9 /* FlickrPlaceAnnotation.m */; };
 		F231E05215D23140003124B9 /* RecentsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = F231E05115D2313F003124B9 /* RecentsStore.m */; };
+		F231E05A15D25411003124B9 /* RotatableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F231E05915D2540E003124B9 /* RotatableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +87,8 @@
 		F231E03615CF7400003124B9 /* FlickrPlaceAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrPlaceAnnotation.m; sourceTree = "<group>"; };
 		F231E05015D2313E003124B9 /* RecentsStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecentsStore.h; sourceTree = "<group>"; };
 		F231E05115D2313F003124B9 /* RecentsStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentsStore.m; sourceTree = "<group>"; };
+		F231E05815D2540D003124B9 /* RotatableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RotatableViewController.h; sourceTree = "<group>"; };
+		F231E05915D2540E003124B9 /* RotatableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RotatableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +141,8 @@
 			children = (
 				F231DF1C15C237DE003124B9 /* MainStoryboard_iPhone.storyboard */,
 				F231E02415CF3AFB003124B9 /* PlaceMapViewController.h */,
+				F231E05815D2540D003124B9 /* RotatableViewController.h */,
+				F231E05915D2540E003124B9 /* RotatableViewController.m */,
 				F231E02F15CF6AF7003124B9 /* PhotoMapViewController.h */,
 				F231E03015CF6AF7003124B9 /* PhotoMapViewController.m */,
 				F231E02515CF3AFB003124B9 /* PlaceMapViewController.m */,
@@ -274,6 +279,7 @@
 				F231E03115CF6AF8003124B9 /* PhotoMapViewController.m in Sources */,
 				F231E03715CF7400003124B9 /* FlickrPlaceAnnotation.m in Sources */,
 				F231E05215D23140003124B9 /* RecentsStore.m in Sources */,
+				F231E05A15D25411003124B9 /* RotatableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

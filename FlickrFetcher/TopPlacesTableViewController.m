@@ -13,9 +13,7 @@
 #import "FlickrPlaceAnnotation.h"
 #import "FlickrPhotoViewController.h"
 
-@interface TopPlacesTableViewController () <PlaceMapViewControllerDelegate>
-
-
+@interface TopPlacesTableViewController ()
 @end
 
 @implementation TopPlacesTableViewController
@@ -168,7 +166,6 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
         id detail = segue.destinationViewController;
         if ([detail isKindOfClass:[PlaceMapViewController class]]) {
             PlaceMapViewController *mapVC = (PlaceMapViewController *)detail;
-            mapVC.delegate = self;
             mapVC.annotations = [self mapAnnotations];
             // mapVC.title = self.title;
         }
@@ -183,17 +180,10 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
     return annotations;
 }
 
-#pragma mark - PlaceMapViewControllerDelegate
-// This is not working because of no image for the place in Flickr.
-- (UIImage *)mapViewController:(PlaceMapViewController *)sender
-            imageForAnnotation:(id <MKAnnotation>)annotation
-{
-    FlickrPlaceAnnotation *fpa = (FlickrPlaceAnnotation *)annotation;
-    NSURL *url = [FlickrFetcher urlForPhoto:fpa.place format:FlickrPhotoFormatSquare];
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    
-    return data ? [UIImage imageWithData:data] : nil;
-}
+
+// TOCHECK: Is really implementing UISplitViewControllerDelegate only to this ViewController?
+//          No need for RecentstableController?
+//
 #pragma mark - UISplitViewControllerDelegate
 -(void) awakeFromNib
 {

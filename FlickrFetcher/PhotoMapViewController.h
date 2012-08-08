@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+//#import "RotatableViewController.h"
 
 @class PhotoMapViewController;
 @protocol PhotoMapViewControllerDelegate <NSObject>
 - (UIImage *)mapViewController:(PhotoMapViewController *)sender imageForAnnotation:(id <MKAnnotation>)annotation;
 @end
 
+//@interface PhotoMapViewController : RotatableViewController
 @interface PhotoMapViewController : UIViewController
 @property (nonatomic, strong) NSArray *annotations; // of id <MKAnnotation>
 @property (nonatomic,weak) id <PhotoMapViewControllerDelegate> delegate;
