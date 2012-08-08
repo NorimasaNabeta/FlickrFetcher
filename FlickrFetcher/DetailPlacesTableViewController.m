@@ -121,13 +121,16 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     // Configure the cell...
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        // "placeholder.png"(48x48) from apple sample "LazyTableImage"
+        // [cell.imageView setImage:[UIImage imageNamed:@"Placeholder.png"]];
+    }
     NSDictionary *photo = [self.detailPlaces objectAtIndex:indexPath.row];
     cell.textLabel.text=[FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE];
     cell.detailTextLabel.text=[FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_DESCRIPTION];
 
     // ExtraCredit1
-    // "placeholder.png"(48x48) from apple sample "LazyTableImage"
-    [cell.imageView setImage:[UIImage imageNamed:@"placeholder.png"]];
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [spinner startAnimating];
     spinner.hidesWhenStopped = YES;
