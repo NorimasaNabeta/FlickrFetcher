@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SplitViewBarButtonItemPresenter.h"
 
-@interface FlickrPhotoViewController : UIViewController <UISplitViewControllerDelegate>
+@interface FlickrPhotoViewController : UIViewController <SplitViewBarButtonItemPresenter>
 @property (nonatomic,strong) NSDictionary *photo;
 @end

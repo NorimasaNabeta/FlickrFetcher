@@ -14,11 +14,27 @@
 @interface FlickrPhotoViewController ()  <UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @end
 
 @implementation FlickrPhotoViewController
 @synthesize scrollView;
 @synthesize imageView;
+@synthesize toolbar;
+
+@synthesize splitViewBarButtonItem=_splitViewBarButtonItem;
+
+- (void)setSplitViewBarButtonItem:(UIBarButtonItem *)splitViewBarButtonItem
+{
+    if (splitViewBarButtonItem != _splitViewBarButtonItem) {
+        NSMutableArray *toolbarItems = [self.toolbar.items mutableCopy];
+        if (_splitViewBarButtonItem) [toolbarItems removeObject:_splitViewBarButtonItem];
+        if (splitViewBarButtonItem) [toolbarItems insertObject:splitViewBarButtonItem atIndex:0];
+        self.toolbar.items = toolbarItems;
+        _splitViewBarButtonItem = splitViewBarButtonItem;
+    }
+}
+
 
 // http://piazza.com/class#summer2012/codingtogether/1519
 // うまくいかない→setup the struts and strings of the scrollView -->OK
@@ -177,7 +193,6 @@
     [super awakeFromNib];
     NSLog(@"FlickrPhotoViewController.awakeFromNib %g %g", self.scrollView.frame.size.width, self.scrollView.frame.size.height);
     [self resetScrollView];
-    self.splitViewController.delegate=self;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil
@@ -204,6 +219,7 @@
 {
     [self setScrollView:nil];
     [self setImageView:nil];
+    [self setToolbar:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -227,37 +243,5 @@
     NSLog(@"scale=%g", scale);
 }
 
-#pragma mark - UISplitViewControllerDelegate
--(id <SplitViewBarButtonItemPresenter>) splitViewBarButtonItemPresenter
-{
-    id detailVC = [self.splitViewController.viewControllers lastObject];
-    if (![detailVC conformsToProtocol:@protocol(SplitViewBarButtonItemPresenter)]) {
-        detailVC = nil;
-    }
-    return detailVC;
-}
-
--(BOOL) splitViewController:(UISplitViewController *)svc
-   shouldHideViewController:(UIViewController *)vc
-              inOrientation:(UIInterfaceOrientation)orientation
-{
-    return [self splitViewBarButtonItemPresenter] ? UIInterfaceOrientationIsPortrait(orientation) : NO;
-}
--(void) splitViewController:(UISplitViewController *)svc
-     willHideViewController:(UIViewController *)aViewController
-          withBarButtonItem:(UIBarButtonItem *)barButtonItem
-       forPopoverController:(UIPopoverController *)pc
-{
-    barButtonItem.title = self.title;
-    [self splitViewBarButtonItemPresenter].splitViewBarButtonItem = barButtonItem;
-    
-}
-
--(void) splitViewController:(UISplitViewController *)svc
-     willShowViewController:(UIViewController *)aViewController
-  invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
-{
-    [self splitViewBarButtonItemPresenter].splitViewBarButtonItem = nil;
-}
 
 @end

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TopPlacesTableViewController : UITableViewController
+@interface TopPlacesTableViewController : UITableViewController <UISplitViewControllerDelegate>
 @property (nonatomic,strong) NSArray *topPlaces;
 @end
