@@ -34,11 +34,13 @@
         // RequiedTask #2
         NSString *newid = [FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_ID];
         NSMutableArray *culling = [[NSMutableArray alloc] init];
-        for (int idx=0; ((idx<19) && (idx < [favorites count])); idx++) {
+        int cnt=0;
+        for (int idx=0; ((cnt<20) && (idx < [favorites count])); idx++) {
             NSDictionary *entry = [favorites objectAtIndex:idx];
             NSString *id = [FlickrFetcher stringValueFromKey:entry nameKey:FLICKR_PHOTO_ID];
             if (! [newid isEqualToString:id]) {
                 [culling addObject:entry];
+                cnt++;
             }
         }
         favorites = culling;

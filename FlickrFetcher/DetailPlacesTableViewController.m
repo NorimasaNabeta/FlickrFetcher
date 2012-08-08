@@ -126,10 +126,12 @@
     cell.detailTextLabel.text=[FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_DESCRIPTION];
 
     // ExtraCredit1
+    // "placeholder.png"(48x48) from apple sample "LazyTableImage"
+    [cell.imageView setImage:[UIImage imageNamed:@"placeholder.png"]];
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [spinner startAnimating];
     spinner.hidesWhenStopped = YES;
-    spinner.center=CGPointMake(20, 20); // <-- check !
+    spinner.center=CGPointMake(22, 22); // <-- check !
     spinner.alpha = 0.7f;
     [cell.imageView addSubview:spinner];
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader4", NULL);

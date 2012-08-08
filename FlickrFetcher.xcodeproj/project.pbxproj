@@ -38,6 +38,7 @@
 		F231E03715CF7400003124B9 /* FlickrPlaceAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = F231E03615CF7400003124B9 /* FlickrPlaceAnnotation.m */; };
 		F231E05215D23140003124B9 /* RecentsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = F231E05115D2313F003124B9 /* RecentsStore.m */; };
 		F231E05A15D25411003124B9 /* RotatableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F231E05915D2540E003124B9 /* RotatableViewController.m */; };
+		F2E5855315D269C500198F57 /* Placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = F2E5855215D269C500198F57 /* Placeholder.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,6 +90,7 @@
 		F231E05115D2313F003124B9 /* RecentsStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentsStore.m; sourceTree = "<group>"; };
 		F231E05815D2540D003124B9 /* RotatableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RotatableViewController.h; sourceTree = "<group>"; };
 		F231E05915D2540E003124B9 /* RotatableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RotatableViewController.m; sourceTree = "<group>"; };
+		F2E5855215D269C500198F57 /* Placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Placeholder.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +155,7 @@
 				F231DF3615C25BB0003124B9 /* FlickrAPIKey.h */,
 				F231DF3715C25BB0003124B9 /* FlickrFetcher.h */,
 				F231DF3815C25BB0003124B9 /* FlickrFetcher.m */,
+				F2E5855215D269C500198F57 /* Placeholder.png */,
 				F231E02E15CF5FB5003124B9 /* SplitViewBarButtonItemPresenter.h */,
 				F231DF3315C25A26003124B9 /* RecentsTableViewController.h */,
 				F231DF3415C25A26003124B9 /* RecentsTableViewController.m */,
@@ -257,6 +260,7 @@
 				F231DF4B15C2C6D2003124B9 /* Icon-Small@2x.png in Resources */,
 				F231DF4C15C2C6D2003124B9 /* Icon.png in Resources */,
 				F231DF4D15C2C6D2003124B9 /* Icon@2x.png in Resources */,
+				F2E5855315D269C500198F57 /* Placeholder.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
