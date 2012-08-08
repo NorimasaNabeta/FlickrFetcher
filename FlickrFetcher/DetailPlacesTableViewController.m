@@ -190,7 +190,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 #pragma mark - PhotoMapViewControllerDelegate
-
 - (UIImage *)mapViewController:(PhotoMapViewController *)sender
             imageForAnnotation:(id <MKAnnotation>)annotation
 {    

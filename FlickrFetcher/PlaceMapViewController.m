@@ -6,9 +6,9 @@
 //  Copyright (c) 2012年 Norimasa Nabeta. All rights reserved.
 //
 
-#import "PlaceMapViewController.h"
 #import <MapKit/MapKit.h>
-//#import "FlickrFetcher.h"
+
+#import "PlaceMapViewController.h"
 #import "FlickrPlaceAnnotation.h"
 
 @interface PlaceMapViewController () <MKMapViewDelegate>
@@ -34,6 +34,7 @@
             break;
     }
 }
+
 -(void) updateMapView
 {
     if (self.mapView.annotations) {
@@ -43,11 +44,13 @@
         [self.mapView addAnnotations:self.annotations];
     }
 }
+
 -(void)setMapView:(MKMapView *)mapView
 {
     _mapView=mapView;
     [self updateMapView];
 }
+
 -(void) setAnnotations:(NSArray *)annotations
 {
     _annotations=annotations;
@@ -140,9 +143,6 @@ didAddAnnotationViews:(NSArray *)views
 - (void)mapView:(MKMapView *)mapView
 didSelectAnnotationView:(MKAnnotationView *)aView
 {
-// NO-NEEDED
-//    UIImage *image = [self.delegate mapViewController:self imageForAnnotation:aView.annotation];
-//    [(UIImageView *)aView.leftCalloutAccessoryView setImage:image];
 }
 
 @end

@@ -95,7 +95,6 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-//    return (interfaceOrientation == UIInterfaceOrientationPortrait);
     return YES;
 }
 
@@ -103,8 +102,6 @@
 /*
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
     return 0;
 }
 */
@@ -112,8 +109,6 @@
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-//#warning Incomplete method implementation.
-    // Return the number of rows in the section.
     return [self.topPlaces count];
 }
 
@@ -171,6 +166,7 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
         }
     }
 }
+
 - (NSArray *)mapAnnotations
 {
     NSMutableArray *annotations = [NSMutableArray arrayWithCapacity:[self.topPlaces count]];
@@ -190,6 +186,7 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
     [super awakeFromNib];
     self.splitViewController.delegate=self;
 }
+
 -(id <SplitViewBarButtonItemPresenter>) splitViewBarButtonItemPresenter
 {
     id detailVC = [self.splitViewController.viewControllers lastObject];
@@ -205,6 +202,7 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
     return [self splitViewBarButtonItemPresenter] ? UIInterfaceOrientationIsPortrait(orientation) : NO;
 }
+
 -(void) splitViewController:(UISplitViewController *)svc
      willHideViewController:(UIViewController *)aViewController
           withBarButtonItem:(UIBarButtonItem *)barButtonItem

@@ -6,9 +6,9 @@
 //  Copyright (c) 2012年 Norimasa Nabeta. All rights reserved.
 //
 
-#import "PhotoMapViewController.h"
 #import <MapKit/MapKit.h>
 
+#import "PhotoMapViewController.h"
 #import "FlickrPhotoAnnotation.h"
 #import "FlickrPhotoViewController.h"
 
@@ -192,32 +192,9 @@ didAddAnnotationViews:(NSArray *)views
 - (void)mapView:(MKMapView *)mapView
 didSelectAnnotationView:(MKAnnotationView *)aView
 {
-#define __ANNOTAION_IMAGE_WITH_BLOCK__ 0
-#ifdef __ANNOTAION_IMAGE_WITH_BLOCK__
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [spinner startAnimating];
-    spinner.bounds = aView.leftCalloutAccessoryView.bounds;
-    spinner.hidesWhenStopped = YES;
-    spinner.alpha = 0.7f;
-
-    aView.leftCalloutAccessoryView = spinner;
-    //[UIImage imageWithData:data]
-    dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader3", NULL);
-    dispatch_async(downloadQueue, ^{
-        UIImage *image = [self.delegate mapViewController:self imageForAnnotation:aView.annotation];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //[(UIImageView *)aView.leftCalloutAccessoryView setImage:image];
-            UIImageView *thumb = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-            [thumb setImage:image];
-            aView.leftCalloutAccessoryView = thumb;
-            if (thumb != nil) { NSLog(@"IMG OK"); }
-        });
-    });
-    dispatch_release(downloadQueue);
-#else  // #ifdef __ANNOTAION_IMAGE_WITH_BLOCK__
+    // Is necessary calling the delegate method to retrive the Flickr thumbnail image? 
     UIImage *image = [self.delegate mapViewController:self imageForAnnotation:aView.annotation];
     [(UIImageView *)aView.leftCalloutAccessoryView setImage:image];
-#endif // #ifdef __ANNOTAION_IMAGE_WITH_BLOCK__
 }
 
 @end

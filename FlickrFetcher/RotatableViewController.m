@@ -21,7 +21,6 @@
 #import "SplitViewBarButtonItemPresenter.h"
 
 @interface RotatableViewController ()
-
 @end
 
 @implementation RotatableViewController
@@ -30,7 +29,12 @@
     [super awakeFromNib];
     self.splitViewController.delegate=self;
 }
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return YES;
+}
 
+#pragma mark - UISplitViewControllerDelegate
 -(id <SplitViewBarButtonItemPresenter>) splitViewBarButtonItemPresenter
 {
     id detailVC = [self.splitViewController.viewControllers lastObject];
@@ -63,9 +67,5 @@
     [self splitViewBarButtonItemPresenter].splitViewBarButtonItem = nil;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return YES;
-}
 
 @end
