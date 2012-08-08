@@ -36,6 +36,7 @@
 		F231E02915CF3E08003124B9 /* FlickrPhotoAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = F231E02815CF3E08003124B9 /* FlickrPhotoAnnotation.m */; };
 		F231E03115CF6AF8003124B9 /* PhotoMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F231E03015CF6AF7003124B9 /* PhotoMapViewController.m */; };
 		F231E03715CF7400003124B9 /* FlickrPlaceAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = F231E03615CF7400003124B9 /* FlickrPlaceAnnotation.m */; };
+		F231E05215D23140003124B9 /* RecentsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = F231E05115D2313F003124B9 /* RecentsStore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,6 +84,8 @@
 		F231E03015CF6AF7003124B9 /* PhotoMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoMapViewController.m; sourceTree = "<group>"; };
 		F231E03515CF7400003124B9 /* FlickrPlaceAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrPlaceAnnotation.h; sourceTree = "<group>"; };
 		F231E03615CF7400003124B9 /* FlickrPlaceAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrPlaceAnnotation.m; sourceTree = "<group>"; };
+		F231E05015D2313E003124B9 /* RecentsStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecentsStore.h; sourceTree = "<group>"; };
+		F231E05115D2313F003124B9 /* RecentsStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentsStore.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +159,8 @@
 				F231DF3115C259E5003124B9 /* FlickrPhotoViewController.m */,
 				F231DF2D15C25948003124B9 /* DetailPlacesTableViewController.h */,
 				F231DF2E15C25948003124B9 /* DetailPlacesTableViewController.m */,
+				F231E05015D2313E003124B9 /* RecentsStore.h */,
+				F231E05115D2313F003124B9 /* RecentsStore.m */,
 				F231DF2A15C2590E003124B9 /* TopPlacesTableViewController.h */,
 				F231DF2B15C2590E003124B9 /* TopPlacesTableViewController.m */,
 				F231DF1F15C237DE003124B9 /* MainStoryboard_iPad.storyboard */,
@@ -268,6 +273,7 @@
 				F231E02915CF3E08003124B9 /* FlickrPhotoAnnotation.m in Sources */,
 				F231E03115CF6AF8003124B9 /* PhotoMapViewController.m in Sources */,
 				F231E03715CF7400003124B9 /* FlickrPlaceAnnotation.m in Sources */,
+				F231E05215D23140003124B9 /* RecentsStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

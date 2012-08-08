@@ -9,6 +9,7 @@
 #import "FlickrPhotoViewController.h"
 #import "FlickrFetcher.h"
 #import "SplitViewBarButtonItemPresenter.h"
+#import "RecentsStore.h"
 
 @interface FlickrPhotoViewController ()  <UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -165,6 +166,7 @@
 {
     if(_photo != photo){
         _photo = photo;
+        [RecentsStore pushList:photo];
         [self resetView];
     }
 }

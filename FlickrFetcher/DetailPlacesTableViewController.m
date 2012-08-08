@@ -152,37 +152,13 @@
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
-    //[self performSegueWithIdentifier:@"Flickr Photo View" sender:self];
+    id photoVC = [self.splitViewController.viewControllers lastObject];
+    if ([photoVC isKindOfClass:[FlickrPhotoViewController class]]) {
+        NSDictionary *photo = [self.detailPlaces objectAtIndex:indexPath.row];
+        [photoVC setPhoto:photo];
+    }
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-
-
--(void)tableView:(UITableView *)tableView
-accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-{
-    
-    // NSString *photographer = [self photographerForSection:indexPath.section];
-    // NSArray *photosByPhotographer = [self.photosByPhotographer objectForKey:photographer];
-    //    NSDictionary *photo = [self.detailPlaces objectAtIndex:indexPath.row];
-    // self.place = [self.detailPlaces objectAtIndex:indexPath.row];
-#ifdef __UNIVERSAL_IMPLEMENTAION__
-    if ([self splitViewHappinessViewController]) {                      // if in split view
-        [self splitViewHappinessViewController].urlPhoto = self.photoURL;  // just set happiness in detail
-    } else {
-        [self performSegueWithIdentifier:@"Flickr Photo View" sender:self];
-    }
-#else // #ifdef __UNIVERSAL_IMPLEMENTAION__
-    [self performSegueWithIdentifier:@"Flickr Photo View" sender:self];
-#endif // #ifdef __UNIVERSAL_IMPLEMENTAION__
-}
-
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue
                  sender:(id)sender
@@ -191,40 +167,14 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         NSLog(@"indexPath %@", indexPath);
         NSDictionary *photo = [self.detailPlaces objectAtIndex:indexPath.row];
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSMutableArray *favorites = [[defaults objectForKey:FAVORITES_KEY] mutableCopy];
-        if (!favorites){
-            favorites = [NSMutableArray array];
-        }
-        else {
-            // RequiedTask #2
-            NSString *newid = [FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_ID];
-            NSMutableArray *culling = [[NSMutableArray alloc] init];
-            for (int idx=0; ((idx<19) && (idx < [favorites count])); idx++) {
-                NSDictionary *entry = [favorites objectAtIndex:idx];
-                NSString *id = [FlickrFetcher stringValueFromKey:entry nameKey:FLICKR_PHOTO_ID];
-                if (! [newid isEqualToString:id]) {
-                    [culling addObject:entry];
-                }
-            }
-            favorites = culling;
-        }
-        [favorites insertObject:photo atIndex:0];
-        
-        [defaults setObject:[favorites copy] forKey:FAVORITES_KEY];
-        [defaults synchronize];
-
-        [segue.destinationViewController setPhoto:photo ];
+        [segue.destinationViewController setPhoto:photo];
     }
     else if ([segue.identifier isEqualToString:@"Photo Map View"]) {
-        // NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        // NSLog(@"Map:indexPath %@", indexPath);
         id detail = segue.destinationViewController;
         if ([detail isKindOfClass:[PhotoMapViewController class]]) {
             PhotoMapViewController *mapVC = (PhotoMapViewController *)detail;
             mapVC.delegate = self;
             mapVC.annotations = [self mapAnnotations];
-            // mapVC.title = self.title;
         }
 
     }
@@ -237,16 +187,6 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
         [annotations addObject:[FlickrPhotoAnnotation annotationForPhoto:photo]];
     }
     return annotations;
-}
-
-- (void)updateSplitViewDetail
-{
-    id detail = [self.splitViewController.viewControllers lastObject];
-    if ([detail isKindOfClass:[PhotoMapViewController class]]) {
-        PhotoMapViewController *mapVC = (PhotoMapViewController *)detail;
-        mapVC.delegate = self;
-        mapVC.annotations = [self mapAnnotations];
-    }
 }
 
 #pragma mark - PhotoMapViewControllerDelegate

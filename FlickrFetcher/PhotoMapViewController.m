@@ -8,8 +8,9 @@
 
 #import "PhotoMapViewController.h"
 #import <MapKit/MapKit.h>
-//#import "FlickrFetcher.h"
+
 #import "FlickrPhotoAnnotation.h"
+#import "FlickrPhotoViewController.h"
 
 @interface PhotoMapViewController () <MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
@@ -97,9 +98,14 @@
 calloutAccessoryControlTapped:(UIControl *)control
 {
     NSLog(@"CalloutTapped:");
-    [self performSegueWithIdentifier:@"Map Photo View" sender:self];
+    id photoVC = [self.splitViewController.viewControllers lastObject];
+    if ([photoVC isKindOfClass:[FlickrPhotoViewController class]]) {
+        FlickrPhotoAnnotation *anno = [self.mapView.selectedAnnotations objectAtIndex:0];
+        [photoVC setPhoto:anno.photo];
+    } else {
+        [self performSegueWithIdentifier:@"Map Photo View" sender:self];
+    }
 }
-
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView
             viewForAnnotation:(id<MKAnnotation>)annotation

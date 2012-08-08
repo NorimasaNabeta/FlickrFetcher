@@ -9,14 +9,16 @@
 #import "RecentsTableViewController.h"
 #import "FlickrFetcher.h"
 #import "FlickrPhotoViewController.h"
+#import "RecentsStore.h"
 
 @interface RecentsTableViewController ()
 
 @end
 
 @implementation RecentsTableViewController
+@synthesize recentPlaces=_recentPlaces;
 
-
+/*
 //
 // recent-list が更新されてもバッジの値に反映されないのはどうしたものか
 // →バッジはrequiredTask じゃないからいいけど.
@@ -31,6 +33,18 @@
     barItem.badgeValue = [NSString stringWithFormat:@"%d", [recents count]];
 
     return recents;
+}
+*/
+- (NSArray*) recentPlaces
+{
+    if(! _recentPlaces){
+        _recentPlaces = [RecentsStore getList];
+    }
+    return _recentPlaces;
+}
+- (void) setRecentPlaces:(NSArray *)recentPlaces
+{
+    _recentPlaces = recentPlaces;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -55,8 +69,12 @@
 }
 - (void) viewWillAppear:(BOOL)animated
 {
+    [self setRecentPlaces:[RecentsStore getList]];
+    UITabBarItem *barItem = [[self.tabBarController.viewControllers objectAtIndex:1] tabBarItem];
+    barItem.badgeValue = [NSString stringWithFormat:@"%d", [self.recentPlaces count]];
     [self.tableView reloadData];
 }
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -99,10 +117,10 @@
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    NSDictionary *photo = [self.recentPlaces objectAtIndex:indexPath.row];
-//    self.photoURL = [FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge];
-//    self.photoTitle = [FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE];
-//    NSLog(@"3-URL: %@ %@", self.photoTitle, self.photoURL);
+    id photoVC = [self.splitViewController.viewControllers lastObject];
+    if ([photoVC isKindOfClass:[FlickrPhotoViewController class]]) {
+        [photoVC setPhoto:[self.recentPlaces objectAtIndex:indexPath.row]];
+    }
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -110,19 +128,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 -(void)tableView:(UITableView *)tableView
 accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-//    NSDictionary *photo = [self.recentPlaces objectAtIndex:indexPath.row];
-//    self.photoURL = [FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge];
-//    self.photoTitle = [FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE];
-//    NSLog(@"4-URL: %@ %@", self.photoTitle, self.photoURL);
-#ifdef __UNIVERSAL_IMPLEMENTAION__
-    if ([self splitViewHappinessViewController]) {                      // if in split view
-        [self splitViewHappinessViewController].urlPhoto = self.photoURL;  // just set happiness in detail
-    } else {
-        [self performSegueWithIdentifier:@"Recents Photo View" sender:self];
-    }
-#else // #ifdef __UNIVERSAL_IMPLEMENTAION__
-    [self performSegueWithIdentifier:@"Recents Photo View" sender:self];
-#endif // #ifdef __UNIVERSAL_IMPLEMENTAION__
 }
 
 
@@ -131,9 +136,8 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
     if ([segue.identifier isEqualToString:@"Recents Photo View"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSLog(@"indexPath %@", indexPath);
-        NSDictionary *photo = [self.recentPlaces objectAtIndex:indexPath.row];
-        [segue.destinationViewController setPhoto:photo ];
+        // NSLog(@"indexPath %@", indexPath);
+        [segue.destinationViewController setPhoto:[self.recentPlaces objectAtIndex:indexPath.row]];
     }
 }
 

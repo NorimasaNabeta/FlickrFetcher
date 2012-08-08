@@ -11,6 +11,7 @@
 #import "DetailPlacesTableViewController.h"
 #import "PlaceMapViewController.h"
 #import "FlickrPlaceAnnotation.h"
+#import "FlickrPhotoViewController.h"
 
 @interface TopPlacesTableViewController () <PlaceMapViewControllerDelegate>
 
@@ -135,18 +136,16 @@
     return cell;
 }
 
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    id placeVC = [self.splitViewController.viewControllers lastObject];
+    if ([placeVC isKindOfClass:[FlickrPhotoViewController class]]) {
+        [self performSegueWithIdentifier:@"Photo List View" sender:self];
+    }
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -154,22 +153,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 -(void)tableView:(UITableView *)tableView
 accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-    
-    // NSString *photographer = [self photographerForSection:indexPath.section];
-    // NSArray *photosByPhotographer = [self.photosByPhotographer objectForKey:photographer];
-    // self.place = [self.topPlaces objectAtIndex:indexPath.row];
-    // self.photoURL = [FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatLarge];
-    /// NSLog(@"URL: %@", self.photoURL);
-#ifdef __UNIVERSAL_IMPLEMENTAION__
-    if ([self splitViewHappinessViewController]) {                      // if in split view
-        [self splitViewHappinessViewController].setPlace = self.place;  // just set happiness in detail
-    } else {
-        [self performSegueWithIdentifier:@"Detail Places View" sender:self];
-    }
-#else // #ifdef __UNIVERSAL_IMPLEMENTAION__
-//    [self performSegueWithIdentifier:@"Detail Places View" sender:self];
-//    [self performSegueWithIdentifier:@"Places Map View" sender:self];
-#endif // #ifdef __UNIVERSAL_IMPLEMENTAION__
 }
 
 
