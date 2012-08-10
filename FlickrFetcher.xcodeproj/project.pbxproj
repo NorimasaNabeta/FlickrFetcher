@@ -155,15 +155,10 @@
 				F231DF3615C25BB0003124B9 /* FlickrAPIKey.h */,
 				F231DF3715C25BB0003124B9 /* FlickrFetcher.h */,
 				F231DF3815C25BB0003124B9 /* FlickrFetcher.m */,
-				F2E5855215D269C500198F57 /* Placeholder.png */,
 				F231E02E15CF5FB5003124B9 /* SplitViewBarButtonItemPresenter.h */,
 				F231DF3315C25A26003124B9 /* RecentsTableViewController.h */,
 				F231DF3415C25A26003124B9 /* RecentsTableViewController.m */,
 				F231DF3015C259E5003124B9 /* FlickrPhotoViewController.h */,
-				F231DF3A15C2C578003124B9 /* first.png */,
-				F231DF3B15C2C578003124B9 /* first@2x.png */,
-				F231DF3C15C2C578003124B9 /* second.png */,
-				F231DF3D15C2C578003124B9 /* second@2x.png */,
 				F231DF3115C259E5003124B9 /* FlickrPhotoViewController.m */,
 				F231DF2D15C25948003124B9 /* DetailPlacesTableViewController.h */,
 				F231DF2E15C25948003124B9 /* DetailPlacesTableViewController.m */,
@@ -180,6 +175,11 @@
 		F231DF1115C237DE003124B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F2E5855215D269C500198F57 /* Placeholder.png */,
+				F231DF3A15C2C578003124B9 /* first.png */,
+				F231DF3B15C2C578003124B9 /* first@2x.png */,
+				F231DF3C15C2C578003124B9 /* second.png */,
+				F231DF3D15C2C578003124B9 /* second@2x.png */,
 				F231DF4215C2C6D1003124B9 /* Icon-72.png */,
 				F231DF4315C2C6D2003124B9 /* Icon-Small-50.png */,
 				F231DF4415C2C6D2003124B9 /* Icon-Small.png */,

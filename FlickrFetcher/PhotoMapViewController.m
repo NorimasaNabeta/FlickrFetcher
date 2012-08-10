@@ -11,6 +11,7 @@
 #import "PhotoMapViewController.h"
 #import "FlickrPhotoAnnotation.h"
 #import "FlickrPhotoViewController.h"
+#import "FlickrFetcher.h"
 
 @interface PhotoMapViewController () <MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
@@ -116,6 +117,7 @@ calloutAccessoryControlTapped:(UIControl *)control
         aView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:PhotoAnnotationIdentifier];
         aView.canShowCallout = YES;
         aView.leftCalloutAccessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+
         // could put a rightCalloutAccessoryView here
         aView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         
@@ -140,6 +142,10 @@ calloutAccessoryControlTapped:(UIControl *)control
     return aView;
 }
 
+// There is the positioning problem, which disabled to display current position but japan(japanese device's default position)
+// if pointing position is far from the specific localized device's default position, map centering is failed.
+// -->regionThatFits: problem?
+//
 // @1640 (Eytan Bernet's code)
 #define __EYTANS_CODE__ 1
 -(void) mapView:(MKMapView *)mapView
@@ -169,7 +175,10 @@ didAddAnnotationViews:(NSArray *)views
         MKCoordinateSpan span = MKCoordinateSpanMake(max.latitude - min.latitude, max.longitude - min.longitude);
         MKCoordinateRegion region = MKCoordinateRegionMake(center, span);
         
+        // http://stackoverflow.com/questions/2509223/apple-documentation-incorrect-about-mkmapview-regionthatfits
+        self.mapView.centerCoordinate=region.center;
         [self.mapView setRegion:[self.mapView regionThatFits:region] animated:YES];
+        
     }
 #else // #ifdef __EYTANS_CODE__
     MKCoordinateRegion region;
@@ -188,13 +197,88 @@ didAddAnnotationViews:(NSArray *)views
 #endif // #ifdef __EYTANS_CODE__
 }
 
+// @1594
+/*
+// Henry Tsai
+- (void)mapView:(MKMapView *)mapView
+ didSelectAnnotationView:(MKAnnotationView *)aView
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        UIImage *image = [self.delegate mapViewController:self imageForAnnotation:aView.annotation];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [(UIImageView *)aView.leftCalloutAccessoryView setImage:image]; // if view  is reused, there is a problem here
+        });
+    });
+}
+
+ // Cuyler Buckwalter
+- (void) mapView:(MKMapView *)mapView
+didSelectAnnotationView:(MKAnnotationView *)view
+{
+    PhotoInfo *photo = ((PhotoInfo *)view.annotation);
+    UIView *imageView = view.leftCalloutAccessoryView;
+    
+    dispatch_async(self.queue ,^{
+        UIImage *image = photo.thumbnail;
+        [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:2]];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // is the annotation still using the same image view?
+            if (view.leftCalloutAccessoryView == imageView)
+                ((UIImageView *)view.leftCalloutAccessoryView).image = image;
+        });
+    });
+}
+ 
+ // Dan Babcock
+ - (void)mapView:(MKMapView *)mapView
+ didSelectAnnotationView:(MKAnnotationView *)aView
+ {
+     UIView *prefetchImageView = aView.leftCalloutAccessoryView;
+ 
+     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+         UIImage *image = [self.delegate mapViewController:self imageForAnnotation:aView.annotation];
+         [NSThreadsleepUntilDate:[NSDatedateWithTimeIntervalSinceNow:2]]; // simulate 2 sec latency
+ 
+         dispatch_async(dispatch_get_main_queue(), ^{
+             BOOL viewsEqual = prefetchImageView == aView.leftCalloutAccessoryView ? YES : NO; // debug
+             NSLog(@"Views equal=%@", (viewsEqual ? @"YES" : @"NO")); // debug
+             if (prefetchImageView == aView.leftCalloutAccessoryView) [(UIImageView *)aView.leftCalloutAccessoryView setImage:image];
+         });
+     });
+ }
+ */
+ 
 
 - (void)mapView:(MKMapView *)mapView
 didSelectAnnotationView:(MKAnnotationView *)aView
 {
-    // Is necessary calling the delegate method to retrive the Flickr thumbnail image? 
-    UIImage *image = [self.delegate mapViewController:self imageForAnnotation:aView.annotation];
-    [(UIImageView *)aView.leftCalloutAccessoryView setImage:image];
+    // @1594 IMAGE UPDATE RACE CONDITION
+    NSString *idRequested = [FlickrFetcher stringValueFromKey:((FlickrPhotoAnnotation *) aView.annotation).photo nameKey:FLICKR_PHOTO_ID];
+    // id requestedIV = aView.leftCalloutAccessoryView;
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        UIImage *image = [self.delegate mapViewController:self imageForAnnotation:aView.annotation];
+
+        // DEBUG
+        // [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:2]]; // simulate 2 sec latency
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSString *idCurrent = [FlickrFetcher stringValueFromKey:((FlickrPhotoAnnotation *) aView.annotation).photo nameKey:FLICKR_PHOTO_ID];
+            // if( requestedIV == aView.leftCalloutAccessoryView){
+            //     NSLog(@"ANNO: OK");
+            // } else {
+            //     NSLog(@"ANNO: SWAPPED");
+            // }
+            
+            if ( [idRequested isEqualToString:idCurrent] ){
+                [(UIImageView *)aView.leftCalloutAccessoryView setImage:image];
+            } else {
+                NSLog(@"ANNO:Image-Update-skip: %@ vs %@", idRequested, idCurrent);
+            }
+            
+        });
+    });
 }
 
 @end

@@ -127,6 +127,7 @@
         // [cell.imageView setImage:[UIImage imageNamed:@"Placeholder.png"]];
     }
     NSDictionary *photo = [self.detailPlaces objectAtIndex:indexPath.row];
+    [cell.imageView setImage:[UIImage imageNamed:@"Placeholder.png"]];
     cell.textLabel.text=[FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_TITLE];
     cell.detailTextLabel.text=[FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_DESCRIPTION];
 
@@ -137,17 +138,34 @@
     spinner.center=CGPointMake(22, 22); // <-- check !
     spinner.alpha = 0.7f;
     [cell.imageView addSubview:spinner];
-    dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader4", NULL);
-    dispatch_async(downloadQueue, ^{
+
+    // @1594 IMAGE UPDATE RACE CONDITION
+    NSString *idRequested = [FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_ID];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSURL *url = [FlickrFetcher urlForPhoto:photo format:FlickrPhotoFormatSquare];
         NSData *data = [NSData dataWithContentsOfURL:url];
+        // id requestedIV = cell.imageView;
+        // DEBUG
+        // [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:2]]; // simulate 2 sec latency
+        
         dispatch_async(dispatch_get_main_queue(), ^{
-            [cell.imageView setImage:[UIImage imageWithData:data]];
-            [spinner stopAnimating];
-            [spinner removeFromSuperview];
+            NSDictionary *photo = [self.detailPlaces objectAtIndex:indexPath.row];
+            NSString *idCurrent = [FlickrFetcher stringValueFromKey:photo nameKey:FLICKR_PHOTO_ID];
+            // if( requestedIV == cell.imageView){
+            //     NSLog(@"CELL: OK");
+            // } else {
+            //     NSLog(@"CELL: SWAPPED");
+            // }
+
+            if ( [idRequested isEqualToString:idCurrent] ){
+                [cell.imageView setImage:[UIImage imageWithData:data]];
+                [spinner stopAnimating];
+                [spinner removeFromSuperview];
+            } else {
+                NSLog(@"CELL:Image-Update-skip: %@ vs %@", idRequested, idCurrent);
+            }
         });
-    });
-    dispatch_release(downloadQueue);
+    });    
     
     return cell;
 }
