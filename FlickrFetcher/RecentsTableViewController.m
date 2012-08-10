@@ -70,8 +70,8 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [self setRecentPlaces:[RecentsStore getList]];
-    UITabBarItem *barItem = [[self.tabBarController.viewControllers objectAtIndex:1] tabBarItem];
-    barItem.badgeValue = [NSString stringWithFormat:@"%d", [self.recentPlaces count]];
+//    UITabBarItem *barItem = [[self.tabBarController.viewControllers objectAtIndex:1] tabBarItem];
+//    barItem.badgeValue = [NSString stringWithFormat:@"%d", [self.recentPlaces count]];
     [self.tableView reloadData];
 }
 

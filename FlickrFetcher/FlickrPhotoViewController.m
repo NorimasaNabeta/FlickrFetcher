@@ -11,7 +11,7 @@
 #import "SplitViewBarButtonItemPresenter.h"
 #import "RecentsStore.h"
 
-@interface FlickrPhotoViewController ()  <UIScrollViewDelegate>
+@interface FlickrPhotoViewController ()  <UIScrollViewDelegate,UITabBarControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
@@ -183,6 +183,7 @@
     if(_photo != photo){
         _photo = photo;
         [RecentsStore pushList:photo];
+        
         [self resetView];
     }
 }
@@ -209,10 +210,14 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.tabBarController.delegate=self;
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
+    NSArray *recentPlaces= [RecentsStore getList];
+    UITabBarItem *barItem = [[self.tabBarController.viewControllers objectAtIndex:1] tabBarItem];
+    barItem.badgeValue = [NSString stringWithFormat:@"%d", [recentPlaces count]];
 }
 
 - (void)viewDidUnload
@@ -243,5 +248,18 @@
     NSLog(@"scale=%g", scale);
 }
 
-
+// http://stackoverflow.com/questions/5946511/tab-bar-reload-every-time-tab-is-pressed
+// - (void)viewDidLoad
+// {
+//     [super viewDidLoad];
+//     self.tabBarController.delegate=self;
+// }
+//
+#pragma mark - UITabBarControllerDelegate
+- (void)tabBarController:(UITabBarController *)tabBarController
+ didSelectViewController:(UIViewController *)viewController;
+{
+    // Reload selected VC's view
+    [viewController.view setNeedsDisplay];
+}
 @end
