@@ -14,10 +14,12 @@
 #import "FlickrPhotoViewController.h"
 
 @interface TopPlacesTableViewController ()
+@property (nonatomic,strong) NSMutableDictionary *nations;
 @end
 
 @implementation TopPlacesTableViewController
 @synthesize topPlaces=_topPlaces;
+@synthesize nations=_nations;
 
 - (NSArray*) topPlaces
 {
@@ -58,11 +60,31 @@
         NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:FLICKR_PLACE_NAME ascending:YES];
         NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
         NSArray *sortedTopPlaces = [topPlaces sortedArrayUsingDescriptors:sortDescriptors];
+
+        NSMutableDictionary *nationDict = [[NSMutableDictionary alloc] init];
+        for (NSDictionary* place in topPlaces) {
+            NSString* nationTag = [FlickrFetcher nationPlace:place];
+            NSMutableArray *tmp = [nationDict objectForKey:nationTag];
+            if (tmp == nil) {
+                tmp = [[NSMutableArray alloc] initWithObjects:place, nil];
+            } else {
+                [tmp addObject:place];
+            }
+            [nationDict setObject:tmp forKey:nationTag];
+        }
+        for (NSString *section in [nationDict allKeys]){
+            NSArray *unsortedArray = [nationDict objectForKey:section];
+            NSArray *sortedArray = [unsortedArray sortedArrayUsingDescriptors:sortDescriptors];
+            [nationDict setObject:sortedArray forKey:section];
+        }
+        
         
         dispatch_async(dispatch_get_main_queue(), ^{
             //self.navigationItem.rightBarButtonItem = sender;
             self.navigationItem.leftBarButtonItem = sender;
             self.topPlaces = sortedTopPlaces;
+            self.nations = nationDict;
+            [self.tableView reloadData];
         });
     });
     dispatch_release(downloadQueue);
@@ -99,17 +121,33 @@
 }
 
 #pragma mark - Table view data source
-/*
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 0;
+    // NSLog(@"SECTION: %d",[[self.nations allKeys] count] );
+    return [[self.nations allKeys] count];
 }
-*/
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    NSArray *sortedArray = [[self.nations allKeys] sortedArrayUsingComparator:^(NSString* a, NSString* b) {
+        return [a compare:b options:NSNumericSearch];
+    }];
+    NSString *title = [sortedArray objectAtIndex:section];
+    return title;
+}
+
 
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    return [self.topPlaces count];
+    NSArray *sortedArray = [[self.nations allKeys] sortedArrayUsingComparator:^(NSString* a, NSString* b) {
+        return [a compare:b options:NSNumericSearch];
+    }];    
+    NSString *title = [sortedArray objectAtIndex:section];
+    NSArray *places = [self.nations objectForKey:title];
+    return [places count];
+    
+    //return [self.topPlaces count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -122,9 +160,18 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    NSDictionary *place = [self.topPlaces objectAtIndex:indexPath.row];
+    NSArray *sortedArray = [[self.nations allKeys] sortedArrayUsingComparator:^(NSString* a, NSString* b) {
+       return [a compare:b options:NSNumericSearch];
+    }];
+    NSString *title = [sortedArray objectAtIndex:indexPath.section];
+    NSArray *places = [self.nations objectForKey:title];
+    NSDictionary *place = [places objectAtIndex:indexPath.row];
     cell.textLabel.text = [FlickrFetcher namePlace:place];
     cell.detailTextLabel.text = [place valueForKeyPath:FLICKR_PLACE_NAME];
+
+    // NSDictionary *place = [self.topPlaces objectAtIndex:indexPath.row];
+    // cell.textLabel.text = [FlickrFetcher namePlace:place];
+    // cell.detailTextLabel.text = [place valueForKeyPath:FLICKR_PLACE_NAME];
 
     return cell;
 }

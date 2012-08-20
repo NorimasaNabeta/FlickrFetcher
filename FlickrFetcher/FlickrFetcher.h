@@ -19,6 +19,7 @@
 #define FLICKR_LONGITUDE @"longitude"
 
 #define FAVORITES_KEY @"FavaritePhoto"
+#define FLICKR_PLACE_URL @"place_url"
 
 typedef enum {
 	FlickrPhotoFormatSquare = 1,
@@ -35,5 +36,7 @@ typedef enum {
 
 + (NSString *) stringValueFromKey:(NSDictionary *)dict nameKey:(NSString*)key;
 + (NSString *) namePlace:(NSDictionary*) place;
+
++ (NSString *) nationPlace:(NSDictionary*) place;
 
 @end
