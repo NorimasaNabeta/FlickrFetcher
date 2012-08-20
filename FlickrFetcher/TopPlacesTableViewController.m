@@ -201,7 +201,17 @@ accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
     if ([segue.identifier isEqualToString:@"Photo List View"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         NSLog(@"Detail:indexPath %@", indexPath);
-        NSDictionary *place = [self.topPlaces objectAtIndex:indexPath.row];
+
+        
+        NSArray *sortedArray = [[self.nations allKeys] sortedArrayUsingComparator:^(NSString* a, NSString* b) {
+            return [a compare:b options:NSNumericSearch];
+        }];
+        NSString *title = [sortedArray objectAtIndex:indexPath.section];
+        NSArray *places = [self.nations objectForKey:title];
+        NSDictionary *place = [places objectAtIndex:indexPath.row];
+        
+        //NSDictionary *place = [self.topPlaces objectAtIndex:indexPath.row];
+        
         [segue.destinationViewController setPlace:place ];
     }
     else if ([segue.identifier isEqualToString:@"Place Map View"]) {
