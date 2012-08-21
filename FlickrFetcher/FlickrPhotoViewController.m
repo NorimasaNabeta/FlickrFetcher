@@ -183,7 +183,10 @@
     if(_photo != photo){
         _photo = photo;
         [RecentsStore pushList:photo];
-        
+
+        // Update the icon badge number.
+        [UIApplication sharedApplication].applicationIconBadgeNumber++;
+
         [self resetView];
     }
 }
