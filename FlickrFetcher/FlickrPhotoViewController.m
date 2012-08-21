@@ -158,6 +158,8 @@
             self.imageView.image = [UIImage imageWithData:photo];
             self.imageView.frame=CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);
             self.scrollView.contentSize=self.imageView.image.size;
+            self.scrollView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
+
             [self resetScrollView];
             self.navigationItem.rightBarButtonItem = nil;
 
