@@ -198,7 +198,7 @@ didAddAnnotationViews:(NSArray *)views
 }
 
 // @1594
-/*
+#ifdef __SAMPLE_IMPLEMENTATIONS__
 // Henry Tsai
 - (void)mapView:(MKMapView *)mapView
  didSelectAnnotationView:(MKAnnotationView *)aView
@@ -247,7 +247,7 @@ didSelectAnnotationView:(MKAnnotationView *)view
          });
      });
  }
- */
+#endif //#ifdef __SAMPLE_IMPLEMENTATIONS__
  
 
 - (void)mapView:(MKMapView *)mapView

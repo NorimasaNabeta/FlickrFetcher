@@ -22,7 +22,7 @@
                     </connections>
                 </tabBarController>
             </objects>
-            <point key="canvasLocation" x="-200" y="-93"/>
+            <point key="canvasLocation" x="-767" y="-121"/>
         </scene>
         <!--Place Map View Controller - Place Map-->
         <scene sceneID="B5N-8L-TVa">
@@ -59,7 +59,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1212" y="-1435"/>
+            <point key="canvasLocation" x="792" y="-1175"/>
         </scene>
         <!--Photo Map View Controller - Photo Map-->
         <scene sceneID="SeE-1V-ZvJ">
@@ -96,7 +96,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="2028" y="-1453"/>
+            <point key="canvasLocation" x="1912" y="-1155"/>
         </scene>
         <!--Detail Places Table View Controller - Detail Places-->
         <scene sceneID="aB2-N7-lcg">
@@ -155,7 +155,7 @@
                     </navigationItem>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="1646" y="-718"/>
+            <point key="canvasLocation" x="1358" y="-806"/>
         </scene>
         <!--Flickr Photo View Controller - Flickr Photo-->
         <scene sceneID="RCd-be-Qr3">
@@ -186,7 +186,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="2773" y="-243"/>
+            <point key="canvasLocation" x="2557" y="-323"/>
         </scene>
         <!--Top Places Table View Controller - Top Places-->
         <scene sceneID="AqB-2Q-zoQ">
@@ -246,7 +246,7 @@
                     </navigationItem>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="880" y="-718"/>
+            <point key="canvasLocation" x="240" y="-798"/>
         </scene>
         <!--Recents Table View Controller - Recent-->
         <scene sceneID="Ee0-PZ-8DY">
@@ -295,7 +295,7 @@
                     <navigationItem key="navigationItem" title="Recents" id="EqM-8Q-RKA"/>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="1436" y="366"/>
+            <point key="canvasLocation" x="240" y="-14"/>
         </scene>
         <!--Navigation Controller - TopPlaces-->
         <scene sceneID="Mw9-gc-xj9">
@@ -314,7 +314,7 @@
                     </connections>
                 </navigationController>
             </objects>
-            <point key="canvasLocation" x="316" y="-718"/>
+            <point key="canvasLocation" x="-200" y="-798"/>
         </scene>
         <!--Navigation Controller - Recents-->
         <scene sceneID="wky-wG-nvS">
@@ -333,7 +333,7 @@
                     </connections>
                 </navigationController>
             </objects>
-            <point key="canvasLocation" x="316" y="366"/>
+            <point key="canvasLocation" x="-200" y="-6"/>
         </scene>
     </scenes>
     <resources>
@@ -347,7 +347,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="S0z-vM-qYq"/>
-        <segue reference="N9H-Pm-pQn"/>
+        <segue reference="u3k-H8-MJU"/>
+        <segue reference="ya2-mp-iDk"/>
     </inferredMetricsTieBreakers>
 </document>
