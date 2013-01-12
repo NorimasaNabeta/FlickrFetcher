@@ -3,7 +3,7 @@
 //  Shutterbug
 //
 //  Created by Norimasa Nabeta on 2012/07/30.
-//  Copyright (c) 2012年 Norimasa Nabeta. All rights reserved.
+//  Copyright (c) 2012 Norimasa Nabeta. All rights reserved.
 //
 
 #import "FlickrPhotoAnnotation.h"

@@ -3,7 +3,7 @@
 //  FlickrFetcher
 //
 //  Created by Norimasa Nabeta on 2012/08/06.
-//  Copyright (c) 2012年 Norimasa Nabeta. All rights reserved.
+//  Copyright (c) 2012 Norimasa Nabeta. All rights reserved.
 //
 
 #import "FlickrPlaceAnnotation.h"

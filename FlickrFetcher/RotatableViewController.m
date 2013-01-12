@@ -3,7 +3,7 @@
 //  Psychologist
 //
 //  Created by Norimasa Nabeta on 12/07/17.
-//  Copyright (c) 2012年 Norimasa Nabeta. All rights reserved.
+//  Copyright (c) 2012 Norimasa Nabeta. All rights reserved.
 //
 
 // @1443 Copying Psychologist code doesn't result in popover in portrait

@@ -3,7 +3,7 @@
 //  FlickrFetcher
 //
 //  Created by Norimasa Nabeta on 2012/07/27.
-//  Copyright (c) 2012年 Norimasa Nabeta. All rights reserved.
+//  Copyright (c) 2012 Norimasa Nabeta. All rights reserved.
 //
 
 #import "FlickrPhotoViewController.h"

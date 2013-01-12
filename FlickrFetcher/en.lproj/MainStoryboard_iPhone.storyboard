@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2549" systemVersion="12A269" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="9co-93-9Mm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="9co-93-9Mm">
     <dependencies>
-        <deployment defaultVersion="1296" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1498"/>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
     </dependencies>
     <scenes>
         <!--Tab Bar Controller-->
         <scene sceneID="yPX-DH-FAE">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rfl-Bc-a73" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tabBarController definesPresentationContext="YES" id="9co-93-9Mm" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="e8D-mt-Lxm">
@@ -21,13 +20,13 @@
                         <segue destination="Bb8-Y7-Szc" kind="relationship" relationship="viewControllers" id="aws-6p-qND"/>
                     </connections>
                 </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rfl-Bc-a73" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-767" y="-121"/>
         </scene>
         <!--Place Map View Controller - Place Map-->
         <scene sceneID="B5N-8L-TVa">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="RVD-IQ-FqW" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="RfL-Cs-Pho" customClass="PlaceMapViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="928-Cr-QFJ">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
@@ -58,13 +57,13 @@
                         <segue destination="O0y-xt-IWl" kind="push" identifier="MapPhoto List View" id="u3k-H8-MJU"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RVD-IQ-FqW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="792" y="-1175"/>
         </scene>
         <!--Photo Map View Controller - Photo Map-->
         <scene sceneID="SeE-1V-ZvJ">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ind-aM-6O8" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="q6o-FI-PJL" customClass="PhotoMapViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HqB-us-0UM">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
@@ -95,13 +94,13 @@
                         <segue destination="f8Y-gI-2B8" kind="push" identifier="Map Photo View" id="CMM-hz-gOL"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ind-aM-6O8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1912" y="-1155"/>
         </scene>
         <!--Detail Places Table View Controller - Detail Places-->
         <scene sceneID="aB2-N7-lcg">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JkS-jn-aTB" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="O0y-xt-IWl" customClass="DetailPlacesTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Spu-Pg-6NV">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
@@ -154,13 +153,13 @@
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JkS-jn-aTB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1358" y="-806"/>
         </scene>
         <!--Flickr Photo View Controller - Flickr Photo-->
         <scene sceneID="RCd-be-Qr3">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NIv-FC-wIu" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="f8Y-gI-2B8" customClass="FlickrPhotoViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CRN-VD-0sj">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
@@ -185,13 +184,13 @@
                         <outlet property="scrollView" destination="A7C-GX-Q7X" id="Qsb-ky-Pvf"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NIv-FC-wIu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2557" y="-323"/>
         </scene>
         <!--Top Places Table View Controller - Top Places-->
         <scene sceneID="AqB-2Q-zoQ">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mfw-1v-Qm1" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="WuO-5U-HyA" customClass="TopPlacesTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="mU4-kb-KAS">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
@@ -245,13 +244,13 @@
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mfw-1v-Qm1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="240" y="-798"/>
         </scene>
         <!--Recents Table View Controller - Recent-->
         <scene sceneID="Ee0-PZ-8DY">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="BkQ-Wk-Ypt" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController title="Recent" id="Avy-Ph-cx6" customClass="RecentsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="tL7-gG-YKA">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
@@ -294,13 +293,13 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Recents" id="EqM-8Q-RKA"/>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BkQ-Wk-Ypt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="240" y="-14"/>
         </scene>
         <!--Navigation Controller - TopPlaces-->
         <scene sceneID="Mw9-gc-xj9">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3DI-Qn-7jc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="gNU-Do-6gu" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="TopPlaces" image="first.png" id="dh6-eU-3v6"/>
                     <toolbarItems/>
@@ -313,13 +312,13 @@
                         <segue destination="WuO-5U-HyA" kind="relationship" relationship="rootViewController" id="bnW-JS-RD3"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3DI-Qn-7jc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-200" y="-798"/>
         </scene>
         <!--Navigation Controller - Recents-->
         <scene sceneID="wky-wG-nvS">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="yy2-Kq-aIe" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="Bb8-Y7-Szc" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Recents" image="second.png" id="Zkk-Gs-CXd"/>
                     <toolbarItems/>
@@ -332,6 +331,7 @@
                         <segue destination="Avy-Ph-cx6" kind="relationship" relationship="rootViewController" id="n4C-BL-G5s"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yy2-Kq-aIe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-200" y="-6"/>
         </scene>
